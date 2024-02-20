@@ -178,9 +178,9 @@ public class AMItemRegistry {
     //public static final Holder<Item> SQUID_GRAPPLE = register("squid_grapple", () -> new ItemSquidGrapple(new Item.Properties().durability(450)));
     //public static final Holder<Item> DEVILS_HOLE_PUPFISH_BUCKET = register("devils_hole_pupfish_bucket", () -> new ItemModFishBucket(AMEntityRegistry.DEVILS_HOLE_PUPFISH, Fluids.WATER, new Item.Properties()));
     //public static final Holder<Item> PUPFISH_LOCATOR = register("pupfish_locator", () -> new ItemEcholocator(new Item.Properties().durability(200), ItemEcholocator.EchoType.PUPFISH));
-    public static final Holder<Item> SMALL_CATFISH_BUCKET = register("small_catfish_bucket", () -> new ItemModFishBucket(AMEntityRegistry.CATFISH, Fluids.WATER, new Item.Properties()));
-    public static final Holder<Item> MEDIUM_CATFISH_BUCKET = register("medium_catfish_bucket", () -> new ItemModFishBucket(AMEntityRegistry.CATFISH, Fluids.WATER, new Item.Properties()));
-    public static final Holder<Item> LARGE_CATFISH_BUCKET = register("large_catfish_bucket", () -> new ItemModFishBucket(AMEntityRegistry.CATFISH, Fluids.WATER, new Item.Properties()));
+    //public static final Holder<Item> SMALL_CATFISH_BUCKET = register("small_catfish_bucket", () -> new ItemModFishBucket(AMEntityRegistry.CATFISH, Fluids.WATER, new Item.Properties()));
+    //public static final Holder<Item> MEDIUM_CATFISH_BUCKET = register("medium_catfish_bucket", () -> new ItemModFishBucket(AMEntityRegistry.CATFISH, Fluids.WATER, new Item.Properties()));
+    //public static final Holder<Item> LARGE_CATFISH_BUCKET = register("large_catfish_bucket", () -> new ItemModFishBucket(AMEntityRegistry.CATFISH, Fluids.WATER, new Item.Properties()));
     public static final Holder<Item> RAW_CATFISH = register("raw_catfish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationMod(0.3F).meat().build())));
     public static final Holder<Item> COOKED_CATFISH = register("cooked_catfish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).saturationMod(0.5F).meat().build())));
     //public static final Holder<Item> FLYING_FISH = register("flying_fish", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).saturationMod(0.4F).meat().build())));
@@ -399,9 +399,9 @@ public class AMItemRegistry {
         //DispenserBlock.registerBehavior(COMB_JELLY_BUCKET.value(), bucketDispenseBehavior);
         //DispenserBlock.registerBehavior(COSMIC_COD_BUCKET.value(), bucketDispenseBehavior);
         //DispenserBlock.registerBehavior(DEVILS_HOLE_PUPFISH_BUCKET.value(), bucketDispenseBehavior);
-        DispenserBlock.registerBehavior(SMALL_CATFISH_BUCKET.value(), bucketDispenseBehavior);
-        DispenserBlock.registerBehavior(MEDIUM_CATFISH_BUCKET.value(), bucketDispenseBehavior);
-        DispenserBlock.registerBehavior(LARGE_CATFISH_BUCKET.value(), bucketDispenseBehavior);
+        //DispenserBlock.registerBehavior(SMALL_CATFISH_BUCKET.value(), bucketDispenseBehavior);
+        //DispenserBlock.registerBehavior(MEDIUM_CATFISH_BUCKET.value(), bucketDispenseBehavior);
+        //DispenserBlock.registerBehavior(LARGE_CATFISH_BUCKET.value(), bucketDispenseBehavior);
         //DispenserBlock.registerBehavior(FLYING_FISH_BUCKET.value(), bucketDispenseBehavior);
         //DispenserBlock.registerBehavior(MUDSKIPPER_BUCKET.value(), bucketDispenseBehavior);
         ComposterBlock.COMPOSTABLES.put(BANANA.value(), 0.65F);

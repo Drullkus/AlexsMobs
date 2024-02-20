@@ -479,11 +479,6 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
         return source.is(DamageTypes.DROWN) || source.is(DamageTypes.IN_WALL)  || super.isInvulnerableTo(source);
     }
 
-    // FIXME Tag
-    //public boolean canBreatheUnderwater() {
-    //    return true;
-    //}
-
     public float getWalkTargetValue(BlockPos pos, LevelReader worldIn) {
         return super.getWalkTargetValue(pos, worldIn);
 

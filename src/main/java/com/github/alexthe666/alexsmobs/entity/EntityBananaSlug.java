@@ -110,11 +110,6 @@ public class EntityBananaSlug extends Animal {
 
     }
 
-    // FIXME Tag
-    //public boolean canBreatheUnderwater() {
-    //    return true;
-    //}
-
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         this.setVariant(random.nextInt(4));
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);

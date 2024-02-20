@@ -239,11 +239,6 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
         return null;
     }
 
-    // FIXME Use CAN_BREATHE_UNDER_WATER tag
-    //public boolean canBreatheUnderwater() {
-    //    return true;
-    //}
-
     public boolean isPushedByFluid() {
         return false;
     }

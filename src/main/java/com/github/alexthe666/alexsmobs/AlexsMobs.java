@@ -2,10 +2,12 @@ package com.github.alexthe666.alexsmobs;
 
 import com.github.alexthe666.alexsmobs.block.AMBlockRegistry;
 import com.github.alexthe666.alexsmobs.client.particle.AMParticleRegistry;
+import com.github.alexthe666.alexsmobs.effect.AMEffectRegistry;
 import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
 import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
 import com.github.alexthe666.alexsmobs.message.MessageHurtMultipart;
 import com.github.alexthe666.alexsmobs.misc.AMCreativeTabRegistry;
+import com.github.alexthe666.alexsmobs.misc.AMPointOfInterestRegistry;
 import com.github.alexthe666.alexsmobs.misc.AMSoundRegistry;
 import com.github.alexthe666.alexsmobs.tileentity.AMTileEntityRegistry;
 import com.github.alexthe666.citadel.Citadel;
@@ -51,11 +53,12 @@ public class AlexsMobs implements ModInitializer {
         AMEntityRegistry.init(); //AMEntityRegistry.DEF_REG.register(modBusEvent);
         AMItemRegistry.init(); //AMItemRegistry.DEF_REG.register(modBusEvent);
         AMTileEntityRegistry.init(); //AMTileEntityRegistry.DEF_REG.register(modBusEvent);
-        //AMPointOfInterestRegistry.DEF_REG.register(modBusEvent);
+        AMPointOfInterestRegistry.init(); //AMPointOfInterestRegistry.DEF_REG.register(modBusEvent);
         //AMFeatureRegistry.DEF_REG.register(modBusEvent);
         AMSoundRegistry.init(); //AMSoundRegistry.DEF_REG.register(modBusEvent);
         AMParticleRegistry.init(); //AMParticleRegistry.DEF_REG.register(modBusEvent);
         //AMPaintingRegistry.DEF_REG.register(modBusEvent);
+        AMEffectRegistry.init();
         //AMEffectRegistry.EFFECT_DEF_REG.register(modBusEvent);
         //AMEffectRegistry.POTION_DEF_REG.register(modBusEvent);
         //AMEnchantmentRegistry.DEF_REG.register(modBusEvent);

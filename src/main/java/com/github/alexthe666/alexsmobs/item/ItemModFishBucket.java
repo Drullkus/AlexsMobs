@@ -1,6 +1,5 @@
 package com.github.alexthe666.alexsmobs.item;
 
-import com.github.alexthe666.alexsmobs.entity.EntityCatfish;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
@@ -78,14 +77,14 @@ public class ItemModFishBucket extends MobBucketItem {
     }
 
     private void addExtraAttributes(Entity entity, ItemStack stack) {
-        if(entity instanceof EntityCatfish catfish){
-            if(stack.is(AMItemRegistry.SMALL_CATFISH_BUCKET.value())){
-                catfish.setCatfishSize(0);
-            }else if(stack.is(AMItemRegistry.MEDIUM_CATFISH_BUCKET.value())){
-                catfish.setCatfishSize(1);
-            }else if(stack.is(AMItemRegistry.LARGE_CATFISH_BUCKET.value())){
-                catfish.setCatfishSize(2);
-            }
-        }
+        //if(entity instanceof EntityCatfish catfish){
+        //    if(stack.is(AMItemRegistry.SMALL_CATFISH_BUCKET.value())){
+        //        catfish.setCatfishSize(0);
+        //    }else if(stack.is(AMItemRegistry.MEDIUM_CATFISH_BUCKET.value())){
+        //        catfish.setCatfishSize(1);
+        //    }else if(stack.is(AMItemRegistry.LARGE_CATFISH_BUCKET.value())){
+        //        catfish.setCatfishSize(2);
+        //    }
+        //}
     }
 }

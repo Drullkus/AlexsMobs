@@ -6,6 +6,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
@@ -77,6 +79,9 @@ public class SeagullAIStealFromPlayers extends Goal {
                     seagull.setItemInHand(InteractionHand.MAIN_HAND, copy);
                     fleeTime = 60;
                     seagull.stealCooldown = 1500 + seagull.getRandom().nextInt(1500);
+
+                    target.hurt(seagull.damageSources().mobAttack(seagull), 0.1f); // Custom, notifies player that item was stolen with the damage bob
+
                     //if(target instanceof ServerPlayer){
                     //    AMAdvancementTriggerRegistry.SEAGULL_STEAL.trigger((ServerPlayer)target);
                     //}

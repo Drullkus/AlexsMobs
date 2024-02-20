@@ -85,12 +85,15 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 0.8F, 3));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(6, new FollowBoatGoal(this));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)));
+        this.targetSelector.addGoal(0, (new HurtByTargetGoal(this)));
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, Squid.class, 40, false, true, null));
         //TODO Re-add mob this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, EntityMimicOctopus.class, 70, false, true, null));
         this.targetSelector.addGoal(3, new EntityAINearestTarget3D(this, AbstractSchoolingFish.class, 100, false, true, null));
         //TODO Re-add mob this.targetSelector.addGoal(4, new EntityAINearestTarget3D(this, EntityBlobfish.class, 70, false, true, null));
-        this.targetSelector.addGoal(5, new EntityAINearestTarget3D(this, Drowned.class, 4, false, true, null));
+        //this.targetSelector.addGoal(5, new EntityAINearestTarget3D(this, Drowned.class, 4, false, true, null));
+        // CUSTOM
+        this.targetSelector.addGoal(1, new EntityAINearestTarget3D(this, LivingEntity.class, 50, false, true, EntityHammerheadShark.INJURED_PREDICATE));
+        this.targetSelector.addGoal(6, new EntityAINearestTarget3D(this, Player.class, 4, false, true, null));
     }
 
     @Override

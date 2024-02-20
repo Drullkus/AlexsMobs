@@ -25,6 +25,7 @@ import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -37,7 +38,7 @@ import java.util.function.Predicate;
 
 public class EntityHammerheadShark extends WaterAnimal {
 
-    private static final Predicate<LivingEntity> INJURED_PREDICATE = (mob) -> {
+    public static final Predicate<LivingEntity> INJURED_PREDICATE = (mob) -> {
         return mob.getHealth() <= mob.getMaxHealth() / 2D;
     };
 
@@ -88,6 +89,8 @@ public class EntityHammerheadShark extends WaterAnimal {
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, Squid.class, 50, false, true, null));
         //this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, EntityMimicOctopus.class, 80, false, true, null));
         this.targetSelector.addGoal(3, new EntityAINearestTarget3D(this, AbstractSchoolingFish.class, 70, false, true, null));
+        // Custom
+        this.targetSelector.addGoal(6, new EntityAINearestTarget3D(this, Player.class, 4, false, true, null));
     }
 
 

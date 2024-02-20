@@ -7,13 +7,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-@OnlyIn(Dist.CLIENT)
 public class OctopusColorRegistry {
 
     public static final BlockState FALLBACK_BLOCK = Blocks.SAND.defaultBlockState();
@@ -32,13 +29,13 @@ public class OctopusColorRegistry {
             }
             int color = 0XFFFFFF;
             if(colorizer == -1){
-                BufferedImage texture = null;
-                try {
-                    Color texColour = getAverageColour(getTextureAtlas(stack));
-                    color = texColour.getRGB();
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                //BufferedImage texture = null;
+                //try {
+                //    Color texColour = getAverageColour(getTextureAtlas(stack));
+                //    color = texColour.getRGB();
+                //} catch (NullPointerException e) {
+                //    e.printStackTrace();
+                //}
             }else{
                 color = colorizer;
             }
@@ -47,7 +44,7 @@ public class OctopusColorRegistry {
         }
     }
 
-    private static Color getAverageColour(TextureAtlasSprite image) {
+    /*private static Color getAverageColour(TextureAtlasSprite image) {
         float red = 0;
         float green = 0;
         float blue = 0;
@@ -67,7 +64,7 @@ public class OctopusColorRegistry {
             }
         //Average color
         return new Color((int) (red / count), (int) (green / count), (int) (blue / count));
-    }
+    }*/
 
     private static TextureAtlasSprite getTextureAtlas(BlockState state) {
         return Minecraft.getInstance().getBlockRenderer().getBlockModelShaper().getBlockModel(state).getParticleIcon();

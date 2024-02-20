@@ -365,10 +365,6 @@ public class EntityCaiman extends TamableAnimal implements ISemiAquatic,IFollowe
         this.walkAnimation.update(f2, 0.4F);
     }
 
-    //public boolean canBreatheUnderwater() {
-    //    return true; // FIXME EntityTypeTags.CAN_BREATHE_UNDER_WATER
-    //}
-
     @Override
     public boolean shouldEnterWater() {
         return !shouldLeaveWater() && swimTimer <= -1000 || bellowCooldown == 0;
