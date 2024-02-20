@@ -13,6 +13,7 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -55,9 +56,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntityToucan extends Animal implements ITargetsDroppedItems {
@@ -102,7 +101,7 @@ public class EntityToucan extends Animal implements ITargetsDroppedItems {
                 String[] split = str.split("\\|");
                 if (split.length >= 2) {
                     FEEDING_DATA.put(split[0], split[1]);
-                    FEEDING_STACKS.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(split[0]))));
+                    FEEDING_STACKS.add(new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(split[0]))));
                 }
             }
         }
@@ -113,15 +112,15 @@ public class EntityToucan extends Animal implements ITargetsDroppedItems {
     }
 
     protected SoundEvent getAmbientSound() {
-        return AMSoundRegistry.TOUCAN_IDLE.get();
+        return AMSoundRegistry.TOUCAN_IDLE.value();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.TOUCAN_HURT.get();
+        return AMSoundRegistry.TOUCAN_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.TOUCAN_HURT.get();
+        return AMSoundRegistry.TOUCAN_HURT.value();
     }
 
     public boolean checkSpawnObstruction(LevelReader p_29005_) {
@@ -140,12 +139,11 @@ public class EntityToucan extends Animal implements ITargetsDroppedItems {
         return AMEntityRegistry.rollSpawn(AMConfig.toucanSpawnRolls, this.getRandom(), spawnReasonIn);
     }
 
-    @Nullable
     private BlockState getSaplingFor(ItemStack stack) {
-        ResourceLocation name = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        ResourceLocation name = BuiltInRegistries.ITEM.getKey(stack.getItem());
         if (!stack.isEmpty() && name != null && FEEDING_DATA.containsKey(name.toString())) {
             String str = FEEDING_DATA.get(name.toString());
-            Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(str));
+            Block block = BuiltInRegistries.BLOCK.get(new ResourceLocation(str));
             if (block != null) {
                 return block.defaultBlockState();
             }
@@ -272,8 +270,9 @@ public class EntityToucan extends Animal implements ITargetsDroppedItems {
                 this.heal(4);
                 this.gameEvent(GameEvent.EAT);
                 this.playSound(SoundEvents.GENERIC_EAT, this.getSoundVolume(), this.getVoicePitch());
-                if (this.getMainHandItem().hasCraftingRemainingItem()) {
-                    this.spawnAtLocation(this.getMainHandItem().getCraftingRemainingItem());
+                ItemStack recipeRemainder = this.getMainHandItem().getRecipeRemainder();
+                if (!recipeRemainder.isEmpty()) {
+                    this.spawnAtLocation(recipeRemainder);
                 }
                 final var mainHandItem = this.getMainHandItem().getItem();
                 if (mainHandItem == Items.GOLDEN_APPLE) {
@@ -461,25 +460,22 @@ public class EntityToucan extends Animal implements ITargetsDroppedItems {
         this.entityData.set(ENCHANTED, enchanted);
     }
 
-    @Nullable
     public BlockState getSaplingState() {
         return this.entityData.get(SAPLING_STATE).orElse(null);
     }
 
-    public void setSaplingState(@Nullable BlockState state) {
+    public void setSaplingState(BlockState state) {
         this.entityData.set(SAPLING_STATE, Optional.ofNullable(state));
     }
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         this.setVariant(this.getRandom().nextInt(4));
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob parent) {
-        EntityToucan toucan = AMEntityRegistry.TOUCAN.get().create(level());
+        EntityToucan toucan = AMEntityRegistry.TOUCAN.value().create(level());
         toucan.setVariant(this.getVariant());
         return toucan;
     }
@@ -617,7 +613,6 @@ public class EntityToucan extends Animal implements ITargetsDroppedItems {
             }
         }
 
-        @Nullable
         protected Vec3 getPosition() {
             Vec3 vector3d = toucan.position();
             if (toucan.isOverWaterOrVoid()) {

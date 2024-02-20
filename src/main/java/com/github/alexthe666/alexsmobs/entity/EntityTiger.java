@@ -55,7 +55,6 @@ import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -76,7 +75,7 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
     private static final EntityDataAccessor<Integer> LAST_SCARED_MOB_ID = SynchedEntityData.defineId(EntityTiger.class, EntityDataSerializers.INT);
     private static final UniformInt ANGRY_TIMER = TimeUtil.rangeOfSeconds(40, 80);
     private static final Predicate<LivingEntity> NO_BLESSING_EFFECT = (mob) -> {
-        return !mob.hasEffect(AMEffectRegistry.TIGERS_BLESSING.get());
+        return !mob.hasEffect(AMEffectRegistry.TIGERS_BLESSING.value());
     };
     public float prevSitProgress;
     public float sitProgress;
@@ -170,7 +169,7 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
     }
 
     protected SoundEvent getAmbientSound() {
-        return isStealth() ? super.getAmbientSound() : getRemainingPersistentAngerTime() > 0 ? AMSoundRegistry.TIGER_ANGRY.get() : AMSoundRegistry.TIGER_IDLE.get();
+        return isStealth() ? super.getAmbientSound() : getRemainingPersistentAngerTime() > 0 ? AMSoundRegistry.TIGER_ANGRY.value() : AMSoundRegistry.TIGER_IDLE.value();
     }
 
     public int getAmbientSoundInterval() {
@@ -178,11 +177,11 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.TIGER_HURT.get();
+        return AMSoundRegistry.TIGER_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.TIGER_HURT.get();
+        return AMSoundRegistry.TIGER_HURT.value();
     }
 
 
@@ -195,7 +194,7 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
         return !isSitting() && !isSleeping() && !this.isHolding();
     }
 
-    public double getVisibilityPercent(@Nullable Entity lookingEntity) {
+    public double getVisibilityPercent(Entity lookingEntity) {
         if (this.isStealth()) {
             return 0.2D;
         }
@@ -286,7 +285,7 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
         return this.lastHurtBy;
     }
 
-    public void setPersistentAngerTarget(@Nullable UUID target) {
+    public void setPersistentAngerTarget(UUID target) {
         this.lastHurtBy = target;
     }
 
@@ -417,10 +416,10 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
                 final double d2 = this.random.nextGaussian() * 0.1D;
                 final double d0 = this.random.nextGaussian() * 0.1D;
                 final double d1 = this.random.nextGaussian() * 0.1D;
-                this.level().addParticle(AMParticleRegistry.SHOCKED.get(), e.getX(), e.getEyeY() + e.getBbHeight() * 0.15F + (double) (this.random.nextFloat() * e.getBbHeight() * 0.15F), e.getZ(), d0, d1, d2);
+                this.level().addParticle(AMParticleRegistry.SHOCKED.value(), e.getX(), e.getEyeY() + e.getBbHeight() * 0.15F + (double) (this.random.nextFloat() * e.getBbHeight() * 0.15F), e.getZ(), d0, d1, d2);
             }
         }
-        if(this.getTarget() != null && this.getTarget().hasEffect(AMEffectRegistry.TIGERS_BLESSING.get())){
+        if(this.getTarget() != null && this.getTarget().hasEffect(AMEffectRegistry.TIGERS_BLESSING.value())){
             this.setTarget(null);
             this.setLastHurtByMob(null);
         }
@@ -434,8 +433,8 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
             if (source.getEntity() != null) {
                 if (source.getEntity() instanceof LivingEntity) {
                     LivingEntity hurter = (LivingEntity) source.getEntity();
-                    if (hurter.hasEffect(AMEffectRegistry.TIGERS_BLESSING.get())) {
-                        hurter.removeEffect(AMEffectRegistry.TIGERS_BLESSING.get());
+                    if (hurter.hasEffect(AMEffectRegistry.TIGERS_BLESSING.value())) {
+                        hurter.removeEffect(AMEffectRegistry.TIGERS_BLESSING.value());
                     }
                 }
             }
@@ -459,11 +458,10 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
         return pos;
     }
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel p_241840_1_, AgeableMob p_241840_2_) {
         final boolean whiteOther = p_241840_2_ instanceof EntityTiger && ((EntityTiger) p_241840_2_).isWhite();
-        EntityTiger baby = AMEntityRegistry.TIGER.get().create(p_241840_1_);
+        EntityTiger baby = AMEntityRegistry.TIGER.value().create(p_241840_1_);
         double whiteChance = 0.1D;
         if (this.isWhite() && whiteOther) {
             whiteChance = 0.8D;
@@ -538,7 +536,7 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
             Entity thrower = e.getOwner();
             if (thrower != null && random.nextFloat() < getChanceForEffect(stack) && level().getPlayerByUUID(thrower.getUUID()) != null) {
                 Player player = level().getPlayerByUUID(thrower.getUUID());
-                player.addEffect(new MobEffectInstance(AMEffectRegistry.TIGERS_BLESSING.get(), 12000));
+                player.addEffect(new MobEffectInstance(AMEffectRegistry.TIGERS_BLESSING.value(), 12000));
                 this.setTarget(null);
                 this.setLastHurtByMob(null);
             }
@@ -619,7 +617,7 @@ public class EntityTiger extends Animal implements ICustomCollisions, IAnimatedE
                     tiger.setRunning(true);
                     if (tiger.entityData.get(LAST_SCARED_MOB_ID) != target.getId()) {
                         tiger.entityData.set(LAST_SCARED_MOB_ID, target.getId());
-                        target.addEffect(new MobEffectInstance(AMEffectRegistry.FEAR.get(), 100, 0, true, false));
+                        target.addEffect(new MobEffectInstance(AMEffectRegistry.FEAR.value(), 100, 0, true, false));
                     }
                 }
                 if (dist < 12 && tiger.getAnimation() == NO_ANIMATION && tiger.onGround() && jumpAttemptCooldown == 0 && !tiger.isHolding()) {

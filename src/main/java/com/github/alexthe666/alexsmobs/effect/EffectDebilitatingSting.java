@@ -1,7 +1,5 @@
 package com.github.alexthe666.alexsmobs.effect;
 
-import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
-import com.github.alexthe666.alexsmobs.entity.EntityTarantulaHawk;
 import com.github.alexthe666.alexsmobs.misc.AMBlockPos;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.effect.MobEffect;
@@ -11,7 +9,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -29,18 +26,21 @@ public class EffectDebilitatingSting extends MobEffect {
         this.addAttributeModifier(Attributes.MOVEMENT_SPEED, "7107DE5E-7CE8-4030-940E-514C1F160890", -1.0F, AttributeModifier.Operation.MULTIPLY_BASE);
     }
 
-    public void removeAttributeModifiers(LivingEntity entityLivingBaseIn, AttributeMap attributeMapIn, int amplifier) {
-        if (entityLivingBaseIn.getMobType() == MobType.ARTHROPOD) {
-            super.removeAttributeModifiers(entityLivingBaseIn, attributeMapIn, amplifier);
-        }
+    /*@Override
+    public void removeAttributeModifiers(AttributeMap attributeMapIn) {
+        //if (entityLivingBaseIn.getMobType() == MobType.ARTHROPOD) {
+            super.removeAttributeModifiers(attributeMapIn);
+        //}
     }
 
-    public void addAttributeModifiers(LivingEntity entityLivingBaseIn, AttributeMap attributeMapIn, int amplifier) {
-        if (entityLivingBaseIn.getMobType() == MobType.ARTHROPOD) {
-            super.addAttributeModifiers(entityLivingBaseIn, attributeMapIn, amplifier);
-        }
-    }
+    @Override
+    public void addAttributeModifiers(AttributeMap attributeMapIn, int amplifier) {
+        //if (entityLivingBaseIn.getMobType() == MobType.ARTHROPOD) {
+            super.addAttributeModifiers(attributeMapIn, amplifier);
+        //}
+    }*/
 
+    @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (entity.getMobType() != MobType.ARTHROPOD) {
             if (entity.getHealth() > entity.getMaxHealth() * 0.5F) {
@@ -64,13 +64,13 @@ public class EffectDebilitatingSting extends MobEffect {
                     while (!entity.level().isEmptyBlock(surface) && surface.getY() < 256) {
                         surface = surface.above();
                     }
-                    EntityTarantulaHawk baby = AMEntityRegistry.TARANTULA_HAWK.get().create(entity.level());
-                    baby.setBaby(true);
-                    baby.setPos(entity.getX(), surface.getY() + 0.1F, entity.getZ());
-                    if (!entity.level().isClientSide) {
-                        baby.finalizeSpawn((ServerLevelAccessor) entity.level(), entity.level().getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.BREEDING, null, null);
-                        entity.level().addFreshEntity(baby);
-                    }
+//                    EntityTarantulaHawk baby = AMEntityRegistry.TARANTULA_HAWK.get().create(entity.level());
+//                    baby.setBaby(true);
+//                    baby.setPos(entity.getX(), surface.getY() + 0.1F, entity.getZ());
+//                    if (!entity.level().isClientSide) {
+//                        baby.finalizeSpawn((ServerLevelAccessor) entity.level(), entity.level().getCurrentDifficultyAt(entity.blockPosition()), MobSpawnType.BREEDING, null, null);
+//                        entity.level().addFreshEntity(baby);
+//                    }
                 }
                 entity.setNoGravity(false);
                 entity.noPhysics = false;
@@ -93,6 +93,7 @@ public class EffectDebilitatingSting extends MobEffect {
         return duration > 0;
     }
 
+    @Override
     public String getDescriptionId() {
         return "alexsmobs.potion.debilitating_sting";
     }

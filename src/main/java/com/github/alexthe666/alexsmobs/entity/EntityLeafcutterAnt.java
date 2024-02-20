@@ -53,10 +53,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -81,18 +78,15 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
     public float attachChangeProgress = 0F;
     public float prevAttachChangeProgress = 0F;
     private Direction prevAttachDir = Direction.DOWN;
-    @Nullable
     private EntityLeafcutterAnt caravanHead;
-    @Nullable
     private EntityLeafcutterAnt caravanTail;
     private UUID lastHurtBy;
-    @Nullable
     private BlockPos hivePos = null;
     private int stayOutOfHiveCountdown;
     private int animationTick;
     private Animation currentAnimation;
     private boolean isUpsideDownNavigator;
-    private static final Ingredient TEMPTATION_ITEMS = Ingredient.of(AMItemRegistry.GONGYLIDIA.get());
+    private static final Ingredient TEMPTATION_ITEMS = Ingredient.of(AMItemRegistry.GONGYLIDIA.value());
     private int haveBabyCooldown = 0;
     public EntityLeafcutterAnt(EntityType type, Level world) {
         super(type, world);
@@ -101,14 +95,13 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
 
     }
 
-    public void setTarget(@Nullable LivingEntity entitylivingbaseIn) {
+    public void setTarget(LivingEntity entitylivingbaseIn) {
         if(entitylivingbaseIn instanceof Player && ((Player) entitylivingbaseIn).isCreative()){
             return;
         }
         super.setTarget(entitylivingbaseIn);
     }
 
-    @Nullable
     protected ResourceLocation getDefaultLootTable() {
         return this.isQueen() ? QUEEN_LOOT : super.getDefaultLootTable();
     }
@@ -179,11 +172,11 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return isQueen() ? AMSoundRegistry.LEAFCUTTER_ANT_QUEEN_HURT.get() : AMSoundRegistry.LEAFCUTTER_ANT_HURT.get();
+        return isQueen() ? AMSoundRegistry.LEAFCUTTER_ANT_QUEEN_HURT.value() : AMSoundRegistry.LEAFCUTTER_ANT_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return isQueen() ? AMSoundRegistry.LEAFCUTTER_ANT_QUEEN_HURT.get() : AMSoundRegistry.LEAFCUTTER_ANT_HURT.get();
+        return isQueen() ? AMSoundRegistry.LEAFCUTTER_ANT_QUEEN_HURT.value() : AMSoundRegistry.LEAFCUTTER_ANT_HURT.value();
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -208,12 +201,12 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
         InteractionResult type = super.mobInteract(player, hand);
-        if(type != InteractionResult.SUCCESS && item == AMItemRegistry.GONGYLIDIA.get()){
+        if(type != InteractionResult.SUCCESS && item == AMItemRegistry.GONGYLIDIA.value()){
             if(isQueen() && haveBabyCooldown == 0){
                 int babies = 1 + random.nextInt(1);
                 pacifyAllNearby();
                 for(int i = 0; i < babies; i++){
-                    EntityLeafcutterAnt leafcutterAnt = AMEntityRegistry.LEAFCUTTER_ANT.get().create(level());
+                    EntityLeafcutterAnt leafcutterAnt = AMEntityRegistry.LEAFCUTTER_ANT.value().create(level());
                     leafcutterAnt.copyPosition(this);
                     leafcutterAnt.setAge(-24000);
                     if(!this.level().isClientSide){
@@ -241,7 +234,7 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
         return type;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    //@OnlyIn(Dist.CLIENT)
     public void handleEntityEvent(byte id) {
         if (id == 48) {
             for(int i = 0; i < 3; ++i) {
@@ -392,7 +385,7 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
         return this.lastHurtBy;
     }
 
-    public void setPersistentAngerTarget(@Nullable UUID target) {
+    public void setPersistentAngerTarget(UUID target) {
         this.lastHurtBy = target;
     }
 
@@ -419,8 +412,7 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
         this.entityData.define(ANGER_TIME, 0);
     }
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         this.setAntScale(0.75F + random.nextFloat() * 0.3F);
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
@@ -555,7 +547,6 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
         return this.hivePos != null;
     }
 
-    @Nullable
     public BlockPos getHivePos() {
         return this.hivePos;
     }
@@ -582,12 +573,10 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
         return this.caravanHead != null;
     }
 
-    @Nullable
     public EntityLeafcutterAnt getCaravanHead() {
         return this.caravanHead;
     }
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob ageableEntity) {
         return null;
@@ -659,7 +648,7 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
                 if (searchCooldown <= 0) {
                     searchCooldown = 400;
                     PoiManager pointofinterestmanager = ((ServerLevel) level()).getPoiManager();
-                    Stream<BlockPos> stream = pointofinterestmanager.findAll(poiTypeHolder -> poiTypeHolder.is(AMPointOfInterestRegistry.LEAFCUTTER_ANT_HILL.getKey()), Predicates.alwaysTrue(), EntityLeafcutterAnt.this.blockPosition(), 100, PoiManager.Occupancy.ANY);
+                    Stream<BlockPos> stream = pointofinterestmanager.findAll(poiTypeHolder -> poiTypeHolder.is(AMPointOfInterestRegistry.LEAFCUTTER_ANT_HILL.key()), Predicates.alwaysTrue(), EntityLeafcutterAnt.this.blockPosition(), 100, PoiManager.Occupancy.ANY);
                     List<BlockPos> listOfHives = stream.collect(Collectors.toList());
                     BlockPos ret = null;
                     for (BlockPos pos : listOfHives) {

@@ -21,17 +21,12 @@ repositories {
     // for more information about repositories.
 
     maven { url 'https://maven.parchmentmc.org' }
+    maven { url "https://maven.terraformersmc.com/" }
+    maven { url "https://libs.azuredoom.com:4443/mods" }
 }
 
 loom {
-    splitEnvironmentSourceSets()
-
-    mods {
-        "alexsmobs" {
-            sourceSet sourceSets.main
-            sourceSet sourceSets.client
-        }
-    }
+    accessWidenerPath = file("src/main/resources/alexsmobs.accesswidener")
 
     runs {
         // This adds a new gradle task that runs the datagen API: "gradlew runDatagen"
@@ -67,9 +62,14 @@ dependencies {
 
 processResources {
     inputs.property "version", project.version
+    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "loader_version", project.loader_version
+    filteringCharset "UTF-8"
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version
+        expand "version": project.version,
+                "minecraft_version": project.minecraft_version,
+                "loader_version": project.loader_version
     }
 }
 
@@ -111,5 +111,13 @@ sourceSets {
                     'src/main/generated'
             ]
         }
+    }
+}
+
+idea {
+    // Tell IDEA to always download sources/javadoc artifacts from maven.
+    module {
+        downloadJavadoc = true
+        downloadSources = true
     }
 }

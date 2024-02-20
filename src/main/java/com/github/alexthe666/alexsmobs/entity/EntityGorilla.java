@@ -54,8 +54,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
@@ -160,15 +160,15 @@ public class EntityGorilla extends TamableAnimal implements IAnimatedEntity, ITa
     }
 
     protected SoundEvent getAmbientSound() {
-        return AMSoundRegistry.GORILLA_IDLE.get();
+        return AMSoundRegistry.GORILLA_IDLE.value();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.GORILLA_HURT.get();
+        return AMSoundRegistry.GORILLA_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.GORILLA_HURT.get();
+        return AMSoundRegistry.GORILLA_HURT.value();
     }
 
     public boolean doHurtTarget(Entity entityIn) {
@@ -241,7 +241,7 @@ public class EntityGorilla extends TamableAnimal implements IAnimatedEntity, ITa
             float angle = (Maths.STARTING_ANGLE * this.yBodyRot);
             double extraX = radius * Mth.sin(Mth.PI + angle);
             double extraZ = radius * Mth.cos(angle);
-            passenger.setPos(this.getX() + extraX, this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset(), this.getZ() + extraZ);
+            passenger.setPos(this.getX() + extraX, this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset(this), this.getZ() + extraZ);
         }
     }
 
@@ -398,8 +398,9 @@ public class EntityGorilla extends TamableAnimal implements IAnimatedEntity, ITa
                             this.level().broadcastEntityEvent(this, (byte) 6);
                         }
                     }
-                    if (stack.hasCraftingRemainingItem()) {
-                        this.spawnAtLocation(stack.getCraftingRemainingItem());
+                    ItemStack recipeRemainder = stack.getRecipeRemainder();
+                    if (!recipeRemainder.isEmpty()) {
+                        this.spawnAtLocation(recipeRemainder);
                     }
                     stack.shrink(1);
                 }
@@ -534,7 +535,7 @@ public class EntityGorilla extends TamableAnimal implements IAnimatedEntity, ITa
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel p_241840_1_, AgeableMob p_241840_2_) {
-        return AMEntityRegistry.GORILLA.get().create(p_241840_1_);
+        return AMEntityRegistry.GORILLA.value().create(p_241840_1_);
     }
 
     public void leaveCaravan() {

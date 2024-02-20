@@ -44,7 +44,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -165,15 +164,15 @@ public class EntityKomodoDragon extends TamableAnimal implements ITargetsDropped
     }
 
     protected SoundEvent getAmbientSound() {
-        return AMSoundRegistry.KOMODO_DRAGON_IDLE.get();
+        return AMSoundRegistry.KOMODO_DRAGON_IDLE.value();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.KOMODO_DRAGON_HURT.get();
+        return AMSoundRegistry.KOMODO_DRAGON_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.KOMODO_DRAGON_HURT.get();
+        return AMSoundRegistry.KOMODO_DRAGON_HURT.value();
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -210,7 +209,7 @@ public class EntityKomodoDragon extends TamableAnimal implements ITargetsDropped
             slaughterCooldown--;
         }
         if (!this.level().isClientSide && this.isAlive() && !this.isBaby() && --this.timeUntilSpit <= 0) {
-            this.spawnAtLocation(AMItemRegistry.KOMODO_SPIT.get());
+            this.spawnAtLocation(AMItemRegistry.KOMODO_SPIT.value());
             this.timeUntilSpit = this.random.nextInt(12000) + 24000;
         }
         if(riderAttackCooldown > 0){
@@ -318,7 +317,6 @@ public class EntityKomodoDragon extends TamableAnimal implements ITargetsDropped
         return super.canBeAffected(potioneffectIn);
     }
 
-    @Nullable
     public LivingEntity getControllingPassenger() {
         for (Entity passenger : this.getPassengers()) {
             if (passenger instanceof Player) {
@@ -335,7 +333,7 @@ public class EntityKomodoDragon extends TamableAnimal implements ITargetsDropped
             float angle = (Maths.STARTING_ANGLE * this.yBodyRot);
             double extraX = radius * Mth.sin(Mth.PI + angle);
             double extraZ = radius * Mth.cos(angle);
-            passenger.setPos(this.getX() + extraX, this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset(), this.getZ() + extraZ);
+            passenger.setPos(this.getX() + extraX, this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset(this), this.getZ() + extraZ);
         }
     }
 
@@ -414,7 +412,7 @@ public class EntityKomodoDragon extends TamableAnimal implements ITargetsDropped
         return 0.98F;
     }
 
-    public void setTarget(@Nullable LivingEntity entitylivingbaseIn) {
+    public void setTarget(LivingEntity entitylivingbaseIn) {
         if(!this.isBaby() || slaughterCooldown > 0){
             super.setTarget(entitylivingbaseIn);
         }
@@ -423,10 +421,9 @@ public class EntityKomodoDragon extends TamableAnimal implements ITargetsDropped
         return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 30D).add(Attributes.ARMOR, 0.0D).add(Attributes.ATTACK_DAMAGE, 4.0D).add(Attributes.MOVEMENT_SPEED, 0.23F);
     }
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel p_241840_1_, AgeableMob p_241840_2_) {
-        return AMEntityRegistry.KOMODO_DRAGON.get().create(p_241840_1_);
+        return AMEntityRegistry.KOMODO_DRAGON.value().create(p_241840_1_);
     }
 
     @Override
@@ -458,16 +455,14 @@ public class EntityKomodoDragon extends TamableAnimal implements ITargetsDropped
         this.entityData.set(JOSTLE_ANGLE, scale);
     }
 
-    @Nullable
     public UUID getJostlingPartnerUUID() {
         return this.entityData.get(JOSTLER_UUID).orElse(null);
     }
 
-    public void setJostlingPartnerUUID(@Nullable UUID uniqueId) {
+    public void setJostlingPartnerUUID(UUID uniqueId) {
         this.entityData.set(JOSTLER_UUID, Optional.ofNullable(uniqueId));
     }
 
-    @Nullable
     public Entity getJostlingPartner() {
         UUID id = getJostlingPartnerUUID();
         if (id != null && !this.level().isClientSide) {
@@ -476,7 +471,7 @@ public class EntityKomodoDragon extends TamableAnimal implements ITargetsDropped
         return null;
     }
 
-    public void setJostlingPartner(@Nullable Entity jostlingPartner) {
+    public void setJostlingPartner(Entity jostlingPartner) {
         if (jostlingPartner == null) {
             this.setJostlingPartnerUUID(null);
         } else {
@@ -489,11 +484,11 @@ public class EntityKomodoDragon extends TamableAnimal implements ITargetsDropped
     }
 
     private void applyKnockbackFromMoose(float strength, double ratioX, double ratioZ) {
-        net.minecraftforge.event.entity.living.LivingKnockBackEvent event = net.minecraftforge.common.ForgeHooks.onLivingKnockBack(this, strength, ratioX, ratioZ);
-        if (event.isCanceled()) return;
-        strength = event.getStrength();
-        ratioX = event.getRatioX();
-        ratioZ = event.getRatioZ();
+        //net.minecraftforge.event.entity.living.LivingKnockBackEvent event = net.minecraftforge.common.ForgeHooks.onLivingKnockBack(this, strength, ratioX, ratioZ);
+        //if (event.isCanceled()) return;
+        //strength = event.getStrength();
+        //ratioX = event.getRatioX();
+        //ratioZ = event.getRatioZ();
         if (!(strength <= 0.0F)) {
             this.hasImpulse = true;
             Vec3 vector3d = this.getDeltaMovement();

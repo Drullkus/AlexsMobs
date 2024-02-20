@@ -14,22 +14,22 @@ public class CapuchinAIMelee extends MeleeAttackGoal {
         this.monkey = monkey;
     }
 
+    @Override
     public boolean canUse() {
         return super.canUse() && !monkey.attackDecision;
     }
 
+    @Override
     public boolean canContinueToUse() {
         return super.canContinueToUse() && !monkey.attackDecision;
     }
 
-    protected void checkAndPerformAttack(LivingEntity enemy, double distToEnemySqr) {
-        double d0 = this.getAttackReachSqr(enemy);
-        if (distToEnemySqr <= d0) {
+    @Override
+    protected void checkAndPerformAttack(LivingEntity enemy) {
+        if (this.canPerformAttack(enemy)) {
             this.resetAttackCooldown();
             this.mob.swing(InteractionHand.MAIN_HAND);
             this.mob.doHurtTarget(enemy);
         }
-
     }
-
 }

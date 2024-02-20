@@ -14,10 +14,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.example.ExampleMod"
+      "com.github.alexthe666.alexsmobs.AlexsMobs"
     ],
     "client": [
-      "com.example.ExampleModClient"
+      "com.github.alexthe666.alexsmobs.client.AlexMobsClient"
     ]
   },
   "depends": {

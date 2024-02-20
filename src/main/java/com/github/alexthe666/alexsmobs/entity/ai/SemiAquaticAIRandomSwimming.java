@@ -11,8 +11,6 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
-
 public class SemiAquaticAIRandomSwimming extends RandomStrollGoal {
 
     public SemiAquaticAIRandomSwimming(Animal creature, double speed, int chance) {
@@ -41,7 +39,6 @@ public class SemiAquaticAIRandomSwimming extends RandomStrollGoal {
         }
     }
 
-    @Nullable
     protected Vec3 getPosition() {
         if(this.mob.hasRestriction() && this.mob.distanceToSqr(Vec3.atCenterOf(this.mob.getRestrictCenter())) > this.mob.getRestrictRadius() * this.mob.getRestrictRadius()){
             return DefaultRandomPos.getPosTowards(this.mob, 7, 3, Vec3.atBottomCenterOf(this.mob.getRestrictCenter()), 1);

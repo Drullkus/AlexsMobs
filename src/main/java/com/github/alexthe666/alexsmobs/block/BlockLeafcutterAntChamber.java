@@ -29,7 +29,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -58,7 +57,7 @@ public class BlockLeafcutterAntChamber extends Block {
             if(!worldIn.isClientSide){
                 if(worldIn.random.nextInt(2) == 0){
                     Direction dir = Direction.getRandom(worldIn.random);
-                    if(worldIn.getBlockState(pos.above()).getBlock() == AMBlockRegistry.LEAFCUTTER_ANTHILL.get()){
+                    if(worldIn.getBlockState(pos.above()).getBlock() == AMBlockRegistry.LEAFCUTTER_ANTHILL.value()){
                         dir = Direction.DOWN;
                     }
                     BlockPos offset = pos.relative(dir);
@@ -66,7 +65,7 @@ public class BlockLeafcutterAntChamber extends Block {
                         worldIn.setBlockAndUpdate(offset, this.defaultBlockState());
                     }
                 }
-                popResource(worldIn, pos, new ItemStack(AMItemRegistry.GONGYLIDIA.get()));
+                popResource(worldIn, pos, new ItemStack(AMItemRegistry.GONGYLIDIA.value()));
             }
             return InteractionResult.SUCCESS;
         }
@@ -74,14 +73,14 @@ public class BlockLeafcutterAntChamber extends Block {
     }
 
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
-            if (!worldIn.isAreaLoaded(pos, 3))
-                return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
+        if (!worldIn.isLoaded(pos)) // FIXME supposed to check with a range of 3 chunks
+            return; // Forge: prevent loading unloaded chunks when checking neighbor's light and spreading
         if(worldIn.canSeeSky(pos.above())){
             worldIn.setBlockAndUpdate(pos, Blocks.DIRT.defaultBlockState());
         }
     }
 
-    public void playerDestroy(Level worldIn, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
+    public void playerDestroy(Level worldIn, Player player, BlockPos pos, BlockState state, BlockEntity te, ItemStack stack) {
         super.playerDestroy(worldIn, player, pos, state, te, stack);
         this.angerNearbyAnts(worldIn, pos);
     }
@@ -102,7 +101,7 @@ public class BlockLeafcutterAntChamber extends Block {
         }
         if(!world.isClientSide){
             PoiManager pointofinterestmanager = ((ServerLevel) world).getPoiManager();
-            Stream<BlockPos> stream = pointofinterestmanager.findAll((poiTypeHolder -> poiTypeHolder.is(AMPointOfInterestRegistry.LEAFCUTTER_ANT_HILL.getKey())), Predicates.alwaysTrue(), pos, 50, PoiManager.Occupancy.ANY);
+            Stream<BlockPos> stream = pointofinterestmanager.findAll((poiTypeHolder -> poiTypeHolder.is(AMPointOfInterestRegistry.LEAFCUTTER_ANT_HILL.key())), Predicates.alwaysTrue(), pos, 50, PoiManager.Occupancy.ANY);
             List<BlockPos> listOfHives = stream.collect(Collectors.toList());
             for (BlockPos pos2 : listOfHives) {
                 if(world.getBlockEntity(pos2) instanceof TileEntityLeafcutterAnthill){

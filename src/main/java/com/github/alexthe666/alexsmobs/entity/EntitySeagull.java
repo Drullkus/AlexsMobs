@@ -57,7 +57,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class EntitySeagull extends Animal implements ITargetsDroppedItems {
@@ -100,15 +99,15 @@ public class EntitySeagull extends Animal implements ITargetsDroppedItems {
     }
 
     protected SoundEvent getAmbientSound() {
-        return AMSoundRegistry.SEAGULL_IDLE.get();
+        return AMSoundRegistry.SEAGULL_IDLE.value();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.SEAGULL_HURT.get();
+        return AMSoundRegistry.SEAGULL_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.SEAGULL_HURT.get();
+        return AMSoundRegistry.SEAGULL_HURT.value();
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -151,7 +150,7 @@ public class EntitySeagull extends Animal implements ITargetsDroppedItems {
         this.targetSelector.addGoal(1, new SeagullAIRevealTreasure(this));
         this.targetSelector.addGoal(2, new SeagullAIStealFromPlayers(this));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, Ingredient.of(Items.COD, AMItemRegistry.LOBSTER_TAIL.get(), AMItemRegistry.COOKED_LOBSTER_TAIL.get()), false){
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, Ingredient.of(Items.COD/*, AMItemRegistry.LOBSTER_TAIL.get(), AMItemRegistry.COOKED_LOBSTER_TAIL.get()*/), false){
             public boolean canUse(){
                 return !EntitySeagull.this.aiItemFlag && super.canUse();
             }
@@ -352,8 +351,9 @@ public class EntitySeagull extends Animal implements ITargetsDroppedItems {
                 this.heal(4);
                 this.gameEvent(GameEvent.EAT);
                 this.playSound(SoundEvents.GENERIC_EAT, this.getSoundVolume(), this.getVoicePitch());
-                if (this.getMainHandItem().hasCraftingRemainingItem()) {
-                    this.spawnAtLocation(this.getMainHandItem().getCraftingRemainingItem());
+                ItemStack recipeRemainder = this.getMainHandItem().getRecipeRemainder();
+                if (!recipeRemainder.isEmpty()) {
+                    this.spawnAtLocation(recipeRemainder);
                 }
                 eatItemEffect(this.getMainHandItem());
                 this.getMainHandItem().shrink(1);
@@ -449,13 +449,14 @@ public class EntitySeagull extends Animal implements ITargetsDroppedItems {
         }
         stealCooldown += 600 + random.nextInt(1200);
         Entity thrower = e.getOwner();
-        if(thrower != null && (e.getItem().getItem() == AMItemRegistry.LOBSTER_TAIL.get() || e.getItem().getItem() == AMItemRegistry.COOKED_LOBSTER_TAIL.get())){
-            Player player = level().getPlayerByUUID(thrower.getUUID());
-            if(player != null){
-                setDataFromTreasureMap(player);
-                feederUUID = thrower.getUUID();
-            }
-        }
+        // FIXME
+        //if(thrower != null && (e.getItem().getItem() == AMItemRegistry.LOBSTER_TAIL.get() || e.getItem().getItem() == AMItemRegistry.COOKED_LOBSTER_TAIL.get())){
+        //    Player player = level().getPlayerByUUID(thrower.getUUID());
+        //    if(player != null){
+        //        setDataFromTreasureMap(player);
+        //        feederUUID = thrower.getUUID();
+        //    }
+        //}
         this.setFlying(true);
         this.setItemInHand(InteractionHand.MAIN_HAND, duplicate);
     }
@@ -554,10 +555,9 @@ public class EntitySeagull extends Animal implements ITargetsDroppedItems {
     }
 
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob ageableEntity) {
-        return AMEntityRegistry.SEAGULL.get().create(serverWorld);
+        return AMEntityRegistry.SEAGULL.value().create(serverWorld);
     }
 
     public void peck() {
@@ -578,7 +578,7 @@ public class EntitySeagull extends Animal implements ITargetsDroppedItems {
             this.theNearestAttackableTargetSorter = new EntitySeagull.AIScatter.Sorter(EntitySeagull.this);
             this.targetEntitySelector = new Predicate<Entity>() {
                 @Override
-                public boolean apply(@Nullable Entity e) {
+                public boolean apply(Entity e) {
                     return e.isAlive() && e.getType().is(AMTagRegistry.SCATTERS_CROWS) || e instanceof Player && !((Player) e).isCreative();
                 }
             };
@@ -765,7 +765,6 @@ public class EntitySeagull extends Animal implements ITargetsDroppedItems {
             }
         }
 
-        @Nullable
         protected Vec3 getPosition() {
             Vec3 vector3d = eagle.position();
             if (orbitResetCooldown > 0 && eagle.orbitPos != null) {

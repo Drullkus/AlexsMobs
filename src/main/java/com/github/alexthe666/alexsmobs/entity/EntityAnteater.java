@@ -42,7 +42,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.Locale;
 import java.util.UUID;
@@ -112,11 +111,11 @@ public class EntityAnteater extends Animal implements NeutralMob, IAnimatedEntit
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.ANTEATER_HURT.get();
+        return AMSoundRegistry.ANTEATER_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.ANTEATER_HURT.get();
+        return AMSoundRegistry.ANTEATER_HURT.value();
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
@@ -132,7 +131,7 @@ public class EntityAnteater extends Animal implements NeutralMob, IAnimatedEntit
     }
 
     public boolean isFood(ItemStack stack) {
-        return stack.getItem() == AMItemRegistry.LEAFCUTTER_ANT_PUPA.get();
+        return stack.getItem() == AMItemRegistry.LEAFCUTTER_ANT_PUPA.value();
     }
 
     @Override
@@ -156,7 +155,7 @@ public class EntityAnteater extends Animal implements NeutralMob, IAnimatedEntit
         return this.lastHurtBy;
     }
 
-    public void setPersistentAngerTarget(@Nullable UUID target) {
+    public void setPersistentAngerTarget(UUID target) {
         this.lastHurtBy = target;
     }
 
@@ -219,7 +218,7 @@ public class EntityAnteater extends Animal implements NeutralMob, IAnimatedEntit
             this.stopBeingAngry();
             this.heal(4);
             this.setItemInHand(InteractionHand.MAIN_HAND, rippedStack);
-            if (item == AMItemRegistry.LEAFCUTTER_ANT_PUPA.get()) {
+            if (item == AMItemRegistry.LEAFCUTTER_ANT_PUPA.value()) {
                 return type;
             }
             this.usePlayerItem(player, hand, itemstack);
@@ -314,8 +313,9 @@ public class EntityAnteater extends Animal implements NeutralMob, IAnimatedEntit
                 this.heal(4);
                 this.playSound(SoundEvents.GENERIC_EAT, this.getSoundVolume(), this.getVoicePitch());
                 this.gameEvent(GameEvent.EAT);
-                if (this.getMainHandItem().hasCraftingRemainingItem()) {
-                    this.spawnAtLocation(this.getMainHandItem().getCraftingRemainingItem());
+                ItemStack itemRemains = this.getMainHandItem().getRecipeRemainder();
+                if (!itemRemains.isEmpty()) {
+                    this.spawnAtLocation(itemRemains);
                 }
                 this.stopBeingAngry();
                 this.getMainHandItem().shrink(1);
@@ -367,10 +367,9 @@ public class EntityAnteater extends Animal implements NeutralMob, IAnimatedEntit
         return 0.0F;
     }
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob parent) {
-        return AMEntityRegistry.ANTEATER.get().create(level());
+        return AMEntityRegistry.ANTEATER.value().create(level());
     }
 
     @Override
@@ -427,7 +426,7 @@ public class EntityAnteater extends Animal implements NeutralMob, IAnimatedEntit
         return lowercaseName.contains("peter") || lowercaseName.contains("petr") || lowercaseName.contains("zot");
     }
 
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         if (spawnDataIn == null)
             spawnDataIn = new AgeableMob.AgeableMobGroupData(0.5F);
 

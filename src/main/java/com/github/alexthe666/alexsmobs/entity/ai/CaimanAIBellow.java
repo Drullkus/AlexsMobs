@@ -2,9 +2,9 @@ package com.github.alexthe666.alexsmobs.entity.ai;
 
 import com.github.alexthe666.alexsmobs.entity.EntityCaiman;
 import com.github.alexthe666.alexsmobs.misc.AMSoundRegistry;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeMod;
 
 import java.util.EnumSet;
 
@@ -36,7 +36,7 @@ public class CaimanAIBellow extends Goal {
 
     public void tick(){
         if(caiman.isInWaterOrBubble()){
-            final double d1 = caiman.getFluidTypeHeight(ForgeMod.WATER_TYPE.get());
+            final double d1 = caiman.getFluidHeight(FluidTags.WATER);
             caiman.getNavigation().stop();
             if(d1 > 0.3F){
                 final double d2 = Math.pow(d1 - 0.3F, 2);
@@ -46,7 +46,7 @@ public class CaimanAIBellow extends Goal {
             }
             if(d1 > 0.19F && d1 < 0.5F){
                 bellowTime++;
-                caiman.playSound(AMSoundRegistry.CAIMAN_SPLASH.get(), 1, caiman.getVoicePitch());
+                caiman.playSound(AMSoundRegistry.CAIMAN_SPLASH.value(), 1, caiman.getVoicePitch());
                 caiman.setBellowing(true);
             }
         }

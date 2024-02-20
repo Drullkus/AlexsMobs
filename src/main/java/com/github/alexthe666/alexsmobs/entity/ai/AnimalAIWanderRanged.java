@@ -1,12 +1,10 @@
 package com.github.alexthe666.alexsmobs.entity.ai;
 
-import com.github.alexthe666.alexsmobs.entity.EntityKangaroo;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 
 public class AnimalAIWanderRanged extends RandomStrollGoal {
     protected final float probability;
@@ -18,7 +16,8 @@ public class AnimalAIWanderRanged extends RandomStrollGoal {
     }
 
     public boolean canUse() {
-        if (this.mob.isVehicle() && !(this.mob instanceof EntityKangaroo)) {
+        //if (this.mob.isVehicle() && !(this.mob instanceof EntityKangaroo)) {
+        if (this.mob.isVehicle()) { // FIXME
             return false;
         } else {
             if (!this.forceTrigger) {
@@ -51,7 +50,6 @@ public class AnimalAIWanderRanged extends RandomStrollGoal {
         this.yRange = yRange;
     }
 
-    @Nullable
     protected Vec3 getPosition() {
         if (this.mob.isInWaterOrBubble()) {
             Vec3 vector3d = LandRandomPos.getPos(this.mob, xzRange, yRange);

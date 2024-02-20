@@ -14,7 +14,6 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.scores.Team;
 
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.function.Predicate;
 
@@ -69,6 +68,7 @@ public class CapuchinAITargetBalloons extends Goal {
         this.target = closest;
     }
 
+    @Override
     public boolean canContinueToUse() {
         Entity livingentity = this.monkey.getDartTarget();
         if (livingentity == null) {
@@ -112,6 +112,7 @@ public class CapuchinAITargetBalloons extends Goal {
         return this.monkey.getAttributeValue(Attributes.FOLLOW_RANGE);
     }
 
+    @Override
     public void start() {
         this.monkey.setDartTarget(this.target);
         this.targetSearchStatus = 0;
@@ -122,6 +123,7 @@ public class CapuchinAITargetBalloons extends Goal {
     /**
      * Reset the task's internal state. Called when this task is interrupted by another one
      */
+    @Override
     public void stop() {
         this.monkey.setTarget((LivingEntity)null);
         this.monkey.setDartTarget(null);
@@ -131,7 +133,7 @@ public class CapuchinAITargetBalloons extends Goal {
     /**
      * checks if is is a suitable target
      */
-    protected boolean isSuitableTarget(@Nullable LivingEntity potentialTarget, TargetingConditions targetPredicate) {
+    protected boolean isSuitableTarget(LivingEntity potentialTarget, TargetingConditions targetPredicate) {
         if (potentialTarget == null) {
             return false;
         } else if (!targetPredicate.test(this.monkey, potentialTarget)) {

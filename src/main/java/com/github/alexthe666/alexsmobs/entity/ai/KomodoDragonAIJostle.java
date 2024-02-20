@@ -5,7 +5,6 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -140,7 +139,6 @@ public class KomodoDragonAIJostle  extends Goal {
         return !this.komodo.isBaby() && !this.komodo.isInLove() && !this.komodo.isVehicle() && !this.komodo.isOrderedToSit() && this.komodo.getTarget() == null && targetKomodoDragon != null && targetKomodoDragon.isAlive() && komodo.jostleCooldown == 0 && targetKomodoDragon.jostleCooldown == 0;
     }
 
-    @Nullable
     private EntityKomodoDragon getNearbyKomodoDragon() {
         List<EntityKomodoDragon> komodoDragons = this.world.getNearbyEntities(EntityKomodoDragon.class, JOSTLE_PREDICATE, this.komodo, this.komodo.getBoundingBox().inflate(16.0D));
         double lvt_2_1_ = 1.7976931348623157E308D;

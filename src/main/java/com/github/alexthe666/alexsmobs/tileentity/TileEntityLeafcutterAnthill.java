@@ -24,7 +24,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Function;
 
@@ -34,7 +33,7 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
     private int leafFeedings = 0;
 
     public TileEntityLeafcutterAnthill(BlockPos pos, BlockState state) {
-        super(AMTileEntityRegistry.LEAFCUTTER_ANTHILL.get(), pos, state);
+        super(AMTileEntityRegistry.LEAFCUTTER_ANTHILL.value(), pos, state);
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, TileEntityLeafcutterAnthill entity) {
@@ -42,7 +41,6 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
     }
 
     /* To avoid ants not being mapped to vanilla, we have to handle this seperately than the default entitytype implementation.*/
-    @Nullable
     public static Entity loadEntityAndExecute(CompoundTag compound, Level worldIn, Function<Entity, Entity> p_220335_2_) {
         return loadEntity(compound, worldIn).map(p_220335_2_).map((p_220346_3_) -> {
             if (compound.contains("Passengers", 9)) {
@@ -69,7 +67,7 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
     }
 
     public static Optional<Entity> loadEntityUnchecked(CompoundTag compound, Level worldIn) {
-        EntityLeafcutterAnt leafcutterAnt = AMEntityRegistry.LEAFCUTTER_ANT.get().create(worldIn);
+        EntityLeafcutterAnt leafcutterAnt = AMEntityRegistry.LEAFCUTTER_ANT.value().create(worldIn);
         leafcutterAnt.load(compound);
         return Optional.of(leafcutterAnt);
     }
@@ -86,7 +84,7 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
         return this.ants.size() == AMConfig.leafcutterAntColonySize;
     }
 
-    public void angerAnts(@Nullable LivingEntity p_226963_1_, BlockState p_226963_2_, BeehiveBlockEntity.BeeReleaseStatus p_226963_3_) {
+    public void angerAnts(LivingEntity p_226963_1_, BlockState p_226963_2_, BeehiveBlockEntity.BeeReleaseStatus p_226963_3_) {
         List<Entity> list = this.tryReleaseAnt(p_226963_2_, p_226963_3_);
         if (p_226963_1_ != null) {
             for (Entity entity : list) {
@@ -102,7 +100,7 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
 
     }
 
-    public void angerAntsBecauseAnteater(@Nullable LivingEntity p_226963_1_, BlockState p_226963_2_, BeehiveBlockEntity.BeeReleaseStatus p_226963_3_) {
+    public void angerAntsBecauseAnteater(LivingEntity p_226963_1_, BlockState p_226963_2_, BeehiveBlockEntity.BeeReleaseStatus p_226963_3_) {
         List<Entity> list = this.tryReleaseAntAnteater(p_226963_2_, p_226963_3_);
         if (p_226963_1_ != null) {
             for (Entity entity : list) {
@@ -135,7 +133,7 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
         return list;
     }
 
-    private boolean addAntToWorld(BlockState p_235651_1_, Ant p_235651_2_, @Nullable List<Entity> p_235651_3_, BeehiveBlockEntity.BeeReleaseStatus p_235651_4_) {
+    private boolean addAntToWorld(BlockState p_235651_1_, Ant p_235651_2_, List<Entity> p_235651_3_, BeehiveBlockEntity.BeeReleaseStatus p_235651_4_) {
         BlockPos blockpos = this.getBlockPos();
         CompoundTag compoundnbt = p_235651_2_.entityData;
         compoundnbt.remove("Passengers");
@@ -265,15 +263,15 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
 
     public BlockState shrinkFungus() {
         BlockPos bottomChamber = this.getBlockPos().below();
-        while (level.getBlockState(bottomChamber.below()).getBlock() == AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.get() && bottomChamber.getY() > 0) {
+        while (level.getBlockState(bottomChamber.below()).getBlock() == AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.value() && bottomChamber.getY() > 0) {
             bottomChamber = bottomChamber.below();
         }
         BlockPos chamber = bottomChamber;
         if (!isUnfilledChamber(chamber)) {
             BlockState prev = level.getBlockState(chamber);
-            if(prev.is(AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.get())){
+            if(prev.is(AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.value())){
                 int fungalLevel = prev.getValue(BlockLeafcutterAntChamber.FUNGUS);
-                level.setBlockAndUpdate(chamber, AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.get().defaultBlockState().setValue(BlockLeafcutterAntChamber.FUNGUS, Math.min(0, fungalLevel-1)));
+                level.setBlockAndUpdate(chamber, AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.value().defaultBlockState().setValue(BlockLeafcutterAntChamber.FUNGUS, Math.min(0, fungalLevel-1)));
                 return prev;
             }
         } else {
@@ -298,9 +296,9 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
                 BlockPos newChamber = possibleChambers.get(0);
                 if (newChamber != null && !isUnfilledChamber(newChamber)) {
                     BlockState prev = level.getBlockState(newChamber);
-                    if(prev.is(AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.get())) {
+                    if(prev.is(AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.value())) {
                         int fungalLevel = prev.getValue(BlockLeafcutterAntChamber.FUNGUS);
-                        level.setBlockAndUpdate(newChamber, AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.get().defaultBlockState().setValue(BlockLeafcutterAntChamber.FUNGUS, Math.min(fungalLevel - 1, 0)));
+                        level.setBlockAndUpdate(newChamber, AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.value().defaultBlockState().setValue(BlockLeafcutterAntChamber.FUNGUS, Math.min(fungalLevel - 1, 0)));
                         return prev;
                     }
                 }
@@ -312,14 +310,14 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
     public void growFungus() {
         if (!this.hasNoAnts()) {
             BlockPos bottomChamber = this.getBlockPos().below();
-            while (level.getBlockState(bottomChamber.below()).getBlock() == AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.get() && bottomChamber.getY() > 0) {
+            while (level.getBlockState(bottomChamber.below()).getBlock() == AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.value() && bottomChamber.getY() > 0) {
                 bottomChamber = bottomChamber.below();
             }
             BlockPos chamber = bottomChamber;
             if (isUnfilledChamber(chamber)) {
                 int fungalLevel = level.getBlockState(chamber).getValue(BlockLeafcutterAntChamber.FUNGUS);
                 int fungalLevel2 = Mth.clamp(fungalLevel + 1 + level.getRandom().nextInt(1), 0, 5);
-                level.setBlockAndUpdate(chamber, AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.get().defaultBlockState().setValue(BlockLeafcutterAntChamber.FUNGUS, fungalLevel2));
+                level.setBlockAndUpdate(chamber, AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.value().defaultBlockState().setValue(BlockLeafcutterAntChamber.FUNGUS, fungalLevel2));
             } else {
                 boolean flag = false;
                 List<BlockPos> possibleChambers = new ArrayList<>();
@@ -343,7 +341,7 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
                     if (newChamber != null && isUnfilledChamber(newChamber)) {
                         int fungalLevel = level.getBlockState(newChamber).getValue(BlockLeafcutterAntChamber.FUNGUS);
                         int fungalLevel2 = Mth.clamp(fungalLevel + 1 + level.getRandom().nextInt(1), 0, 5);
-                        level.setBlockAndUpdate(newChamber, AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.get().defaultBlockState().setValue(BlockLeafcutterAntChamber.FUNGUS, fungalLevel2));
+                        level.setBlockAndUpdate(newChamber, AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.value().defaultBlockState().setValue(BlockLeafcutterAntChamber.FUNGUS, fungalLevel2));
                     }
                 }
             }
@@ -351,7 +349,7 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
     }
 
     private boolean isUnfilledChamber(BlockPos pos) {
-        return level.getBlockState(pos).getBlock() == AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.get() && level.getBlockState(pos).getValue(BlockLeafcutterAntChamber.FUNGUS) < 5;
+        return level.getBlockState(pos).getBlock() == AMBlockRegistry.LEAFCUTTER_ANT_CHAMBER.value() && level.getBlockState(pos).getValue(BlockLeafcutterAntChamber.FUNGUS) < 5;
     }
 
     private void tickAnts() {

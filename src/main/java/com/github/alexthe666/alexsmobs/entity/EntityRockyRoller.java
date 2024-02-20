@@ -103,15 +103,15 @@ public class EntityRockyRoller extends Monster implements ICustomCollisions {
     }
 
     protected SoundEvent getAmbientSound() {
-        return AMSoundRegistry.ROCKY_ROLLER_IDLE.get();
+        return AMSoundRegistry.ROCKY_ROLLER_IDLE.value();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.ROCKY_ROLLER_HURT.get();
+        return AMSoundRegistry.ROCKY_ROLLER_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.ROCKY_ROLLER_HURT.get();
+        return AMSoundRegistry.ROCKY_ROLLER_HURT.value();
     }
 
     public void tick() {
@@ -167,7 +167,7 @@ public class EntityRockyRoller extends Monster implements ICustomCollisions {
         List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(6, 8, 6));
         for (LivingEntity e : list) {
             if (!(e instanceof EntityRockyRoller) && e.isAlive()) {
-                e.addEffect(new MobEffectInstance(AMEffectRegistry.EARTHQUAKE.get(), 20, 0, false, false, true));
+                e.addEffect(new MobEffectInstance(AMEffectRegistry.EARTHQUAKE.value(), 20, 0, false, false, true));
                 flag = true;
             }
         }
@@ -202,8 +202,8 @@ public class EntityRockyRoller extends Monster implements ICustomCollisions {
             }
         }
         if(flag){
-            this.gameEvent(GameEvent.ENTITY_ROAR);
-            this.playSound(AMSoundRegistry.ROCKY_ROLLER_EARTHQUAKE.get(), this.getSoundVolume(), this.getVoicePitch());
+            this.gameEvent(GameEvent.ENTITY_ACTION);
+            this.playSound(AMSoundRegistry.ROCKY_ROLLER_EARTHQUAKE.value(), this.getSoundVolume(), this.getVoicePitch());
         }
     }
 

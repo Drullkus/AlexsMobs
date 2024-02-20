@@ -48,11 +48,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.EnumSet;
 
 public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, Bucketable {
@@ -74,12 +70,14 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
         return Monster.createMonsterAttributes().add(Attributes.MAX_HEALTH, 20D).add(Attributes.ARMOR, 0.0D).add(Attributes.ATTACK_DAMAGE, 3.0D).add(Attributes.MOVEMENT_SPEED, 0.2F);
     }
 
+    @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(DEPRESSURIZED, false);
         this.entityData.define(FROM_BUCKET, false);
     }
 
+    @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(2, new AIMelee());
@@ -89,12 +87,13 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
         this.goalSelector.addGoal(6, new FollowBoatGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)));
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, Squid.class, 40, false, true, null));
-        this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, EntityMimicOctopus.class, 70, false, true, null));
+        //TODO Re-add mob this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, EntityMimicOctopus.class, 70, false, true, null));
         this.targetSelector.addGoal(3, new EntityAINearestTarget3D(this, AbstractSchoolingFish.class, 100, false, true, null));
-        this.targetSelector.addGoal(4, new EntityAINearestTarget3D(this, EntityBlobfish.class, 70, false, true, null));
+        //TODO Re-add mob this.targetSelector.addGoal(4, new EntityAINearestTarget3D(this, EntityBlobfish.class, 70, false, true, null));
         this.targetSelector.addGoal(5, new EntityAINearestTarget3D(this, Drowned.class, 4, false, true, null));
     }
 
+    @Override
     public boolean checkSpawnRules(LevelAccessor worldIn, MobSpawnType spawnReasonIn) {
         return AMEntityRegistry.rollSpawn(AMConfig.frilledSharkSpawnRolls, this.getRandom(), spawnReasonIn);
     }
@@ -114,25 +113,28 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
     }
 
     @Override
-    @Nonnull
     public SoundEvent getPickupSound() {
         return SoundEvents.BUCKET_FILL_FISH;
     }
 
+    @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("FromBucket", this.fromBucket());
         compound.putBoolean("Depressurized", this.isDepressurized());
     }
 
+    @Override
     public boolean requiresCustomPersistence() {
         return super.requiresCustomPersistence() || this.fromBucket();
     }
 
+    @Override
     public boolean removeWhenFarAway(double p_213397_1_) {
         return !this.fromBucket() && !this.hasCustomName();
     }
 
+    @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setFromBucket(compound.getBoolean("FromBucket"));
@@ -147,14 +149,15 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
         this.setPos(down.getX() + 0.5F, down.getY() + 1, down.getZ() + 0.5F);
     }
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         if (reason == MobSpawnType.NATURAL) {
             doInitialPosing(worldIn);
         }
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
+    @Override
     public boolean checkSpawnObstruction(LevelReader worldIn) {
         return worldIn.isUnobstructed(this);
     }
@@ -167,22 +170,24 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
         this.entityData.set(DEPRESSURIZED, depressurized);
     }
 
+    @Override
     protected PathNavigation createNavigation(Level worldIn) {
         return new WaterBoundPathNavigation(this, worldIn);
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.COD_DEATH;
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         return SoundEvents.COD_HURT;
     }
 
     @Override
-    @Nonnull
     public ItemStack getBucketItemStack() {
-        ItemStack stack = new ItemStack(AMItemRegistry.FRILLED_SHARK_BUCKET.get());
+        ItemStack stack = new ItemStack(AMItemRegistry.FRILLED_SHARK_BUCKET.value());
         if (this.hasCustomName()) {
             stack.setHoverName(this.getCustomName());
         }
@@ -190,7 +195,7 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
     }
 
     @Override
-    public void saveToBucketTag(@Nonnull ItemStack bucket) {
+    public void saveToBucketTag(ItemStack bucket) {
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
         }
@@ -201,18 +206,18 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
     }
 
     @Override
-    public void loadFromBucketTag(@Nonnull CompoundTag compound) {
+    public void loadFromBucketTag(CompoundTag compound) {
         if (compound.contains("FrilledSharkData")) {
             this.readAdditionalSaveData(compound.getCompound("FrilledSharkData"));
         }
     }
 
     @Override
-    @Nonnull
-    protected InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         return Bucketable.bucketMobPickup(player, hand, this).orElse(super.mobInteract(player, hand));
     }
 
+    @Override
     public void travel(Vec3 travelVector) {
         if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(this.getSpeed(), travelVector);
@@ -234,6 +239,7 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
         this.walkAnimation.update(f2, 0.4F);
     }
 
+    @Override
     public void tick() {
         super.tick();
         this.prevOnLandProgress = onLandProgress;
@@ -257,9 +263,9 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
             float f1 = this.getYRot() * Mth.DEG_TO_RAD;
             this.setDeltaMovement(this.getDeltaMovement().add(-Mth.sin(f1) * 0.06F, 0.0D, Mth.cos(f1) * 0.06F));
             if (this.getTarget().hurt(this.damageSources().mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue())){
-                this.getTarget().addEffect(new MobEffectInstance(AMEffectRegistry.EXSANGUINATION.get(), 60, 2));
+                this.getTarget().addEffect(new MobEffectInstance(AMEffectRegistry.EXSANGUINATION.value(), 60, 2));
                 if(random.nextInt(15) == 0 && this.getTarget() instanceof Squid){
-                    this.spawnAtLocation(AMItemRegistry.SERRATED_SHARK_TOOTH.get());
+                    this.spawnAtLocation(AMItemRegistry.SERRATED_SHARK_TOOTH.value());
                 }
             }
 
@@ -267,6 +273,7 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
         AnimationHandler.INSTANCE.updateAnimations(this);
     }
 
+    @Override
     public boolean hurt(DamageSource source, float amount) {
         if (source.getEntity() instanceof Drowned) {
             amount *= 0.5F;
@@ -316,6 +323,7 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
         animationTick = tick;
     }
 
+    @Override
     public boolean doHurtTarget(Entity entityIn) {
         if (this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_ATTACK);
@@ -323,7 +331,7 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
         return true;
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Override
     public void handleEntityEvent(byte id) {
         if (id == 68) {
             double d2 = this.random.nextGaussian() * 0.1D;
@@ -336,7 +344,7 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
             double x = this.getX() + extraX + d0;
             double y = this.getY() + this.getBbHeight() * 0.15F + d1;
             double z = this.getZ() + extraZ + d2;
-            level().addParticle(AMParticleRegistry.TEETH_GLINT.get(), x, y, z, this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
+            level().addParticle(AMParticleRegistry.TEETH_GLINT.value(), x, y, z, this.getDeltaMovement().x, this.getDeltaMovement().y, this.getDeltaMovement().z);
         } else {
             super.handleEntityEvent(id);
         }
@@ -353,6 +361,7 @@ public class EntityFrilledShark extends WaterAnimal implements IAnimatedEntity, 
             return EntityFrilledShark.this.getTarget() != null && EntityFrilledShark.this.getTarget().isAlive();
         }
 
+        @Override
         public void tick() {
             LivingEntity target = EntityFrilledShark.this.getTarget();
             double speed = 1.0F;

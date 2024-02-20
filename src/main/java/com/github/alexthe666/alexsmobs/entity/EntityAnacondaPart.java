@@ -1,9 +1,10 @@
 package com.github.alexthe666.alexsmobs.entity;
 
-import com.github.alexthe666.alexsmobs.AlexsMobs;
 import com.github.alexthe666.alexsmobs.entity.util.AnacondaPartIndex;
+import com.github.alexthe666.alexsmobs.message.AnimationMessage;
 import com.github.alexthe666.alexsmobs.message.MessageHurtMultipart;
 import com.github.alexthe666.alexsmobs.misc.AMBlockPos;
+import com.github.alexthe666.citadel.Citadel;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +30,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -101,14 +101,14 @@ public class EntityAnacondaPart extends LivingEntity implements IHurtableMultipa
         if (this.tickCount > 1) {
             final Entity parent = getParent();
             refreshDimensions();
-            if (!this.level().isClientSide) {
+            if (!this.level().isClientSide && this.level() instanceof ServerLevel serverLevel) {
                 if (parent == null) {
                     this.remove(RemovalReason.DISCARDED);
                 }
                 if (parent != null) {
                     if (parent instanceof final LivingEntity livingEntityParent) {
                         if (livingEntityParent.hurtTime > 0 || livingEntityParent.deathTime > 0) {
-                            AlexsMobs.sendMSGToAll(new MessageHurtMultipart(this.getId(), parent.getId(), 0));
+                            Citadel.sendHurtMultipartToAll(serverLevel, this.getId(), parent.getId(), 0);
                             this.hurtTime = livingEntityParent.hurtTime;
                             this.deathTime = livingEntityParent.deathTime;
                         }
@@ -216,9 +216,10 @@ public class EntityAnacondaPart extends LivingEntity implements IHurtableMultipa
         }
     }
 
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
+    // FIXME Use entity Tag instead
+    //public boolean canBreatheUnderwater() {
+    //    return true;
+    //}
 
     public boolean isPushedByFluid() {
         return false;
@@ -314,12 +315,11 @@ public class EntityAnacondaPart extends LivingEntity implements IHurtableMultipa
         this.setParentId(entity.getUUID());
     }
 
-    @Nullable
     public UUID getParentId() {
         return this.entityData.get(PARENT_UUID).orElse(null);
     }
 
-    public void setParentId(@Nullable UUID uniqueId) {
+    public void setParentId(UUID uniqueId) {
         this.entityData.set(PARENT_UUID, Optional.ofNullable(uniqueId));
     }
 
@@ -334,12 +334,11 @@ public class EntityAnacondaPart extends LivingEntity implements IHurtableMultipa
         return null;
     }
 
-    @Nullable
     public UUID getChildId() {
         return this.entityData.get(CHILD_UUID).orElse(null);
     }
 
-    public void setChildId(@Nullable UUID uniqueId) {
+    public void setChildId(UUID uniqueId) {
         this.entityData.set(CHILD_UUID, Optional.ofNullable(uniqueId));
     }
 

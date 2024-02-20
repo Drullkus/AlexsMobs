@@ -15,10 +15,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.common.ForgeMod;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,14 +30,14 @@ public class ItemModArmor extends ArmorItem {
         super(armorMaterial, slot, new Item.Properties());
     }
 
-    @Override
-    public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
-        consumer.accept((IClientItemExtensions) AlexsMobs.PROXY.getArmorRenderProperties());
-    }
+    // FIXME Special Client rendering
+    //@Override
+    //public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
+    //    consumer.accept((IClientItemExtensions) AlexsMobs.PROXY.getArmorRenderProperties());
+    //}
 
-
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         if (this.material == AMItemRegistry.CENTIPEDE_ARMOR_MATERIAL) {
             tooltip.add(Component.translatable("item.alexsmobs.centipede_leggings.desc").withStyle(ChatFormatting.GRAY));
         }
@@ -79,7 +76,7 @@ public class ItemModArmor extends ArmorItem {
         UUID uuid = ARMOR_MODIFIERS[type.ordinal()];
         builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", materialIn.getDefenseForType(this.type), AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", materialIn.getToughness(), AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(uuid, "Swim speed", 1, AttributeModifier.Operation.ADDITION));
+        // FIXME builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(uuid, "Swim speed", 1, AttributeModifier.Operation.ADDITION));
         if (this.knockbackResistance > 0) {
             builder.put(Attributes.KNOCKBACK_RESISTANCE, new AttributeModifier(uuid, "Armor knockback resistance", this.knockbackResistance, AttributeModifier.Operation.ADDITION));
         }
@@ -91,7 +88,7 @@ public class ItemModArmor extends ArmorItem {
         UUID uuid = ARMOR_MODIFIERS[type.ordinal()];
         builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", materialIn.getDefenseForType(this.type), AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", materialIn.getToughness(), AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(uuid, "Swim speed", 0.5, AttributeModifier.Operation.ADDITION));
+        // FIXME builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(uuid, "Swim speed", 0.5, AttributeModifier.Operation.ADDITION));
         attributeMapFlyingFish = builder.build();
     }
 
@@ -112,11 +109,12 @@ public class ItemModArmor extends ArmorItem {
         UUID uuid = ARMOR_MODIFIERS[type.ordinal()];
         builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", materialIn.getDefenseForType(this.type), AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", materialIn.getToughness(), AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.BLOCK_REACH.get(), new AttributeModifier(uuid, "Block Reach distance", 2, AttributeModifier.Operation.ADDITION));
-        builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(uuid, "Entity Reach distance", 2, AttributeModifier.Operation.ADDITION));
+        // FIXME builder.put(ForgeMod.BLOCK_REACH.get(), new AttributeModifier(uuid, "Block Reach distance", 2, AttributeModifier.Operation.ADDITION));
+        // FIXME builder.put(ForgeMod.ENTITY_REACH.get(), new AttributeModifier(uuid, "Entity Reach distance", 2, AttributeModifier.Operation.ADDITION));
         attributeMapKimono = builder.build();
     }
 
+    @Override
     public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot equipmentSlot) {
         if (getMaterial() == AMItemRegistry.CROCODILE_ARMOR_MATERIAL && equipmentSlot == this.type.getSlot()) {
             if (attributeMapCroc == null) {
@@ -145,7 +143,6 @@ public class ItemModArmor extends ArmorItem {
         return super.getDefaultAttributeModifiers(equipmentSlot);
     }
 
-    @Nullable
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         if (this.material == AMItemRegistry.CROCODILE_ARMOR_MATERIAL) {
             return "alexsmobs:textures/armor/crocodile_chestplate.png";
@@ -176,6 +173,7 @@ public class ItemModArmor extends ArmorItem {
         } else if (this.material == AMItemRegistry.KIMONO_MATERIAL) {
             return "alexsmobs:textures/armor/unsettling_kimono.png";
         }
-        return super.getArmorTexture(stack, entity, slot, type);
+        //return super.getArmorTexture(stack, entity, slot, type);
+        return "";
     }
 }

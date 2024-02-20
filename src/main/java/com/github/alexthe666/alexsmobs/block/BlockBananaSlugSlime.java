@@ -47,24 +47,27 @@ public class BlockBananaSlugSlime extends HalfTransparentBlock {
         super.entityInside(state, level, pos, entity);
     }
 
-    @Override
-    public boolean isSlimeBlock(BlockState state) {
-        return true;
-    }
+    // FIXME Slime/Honey sticky behavior
+    // @Override
+    // public boolean isSlimeBlock(BlockState state) {
+    //     return true;
+    // }
 
-    @Override
-    public boolean isStickyBlock(BlockState state) {
-        return true;
-    }
+    // FIXME Slime/Honey sticky behavior
+    // @Override
+    // public boolean isStickyBlock(BlockState state) {
+    //     return true;
+    // }
 
     public boolean propagatesSkylightDown(BlockState p_48740_, BlockGetter p_48741_, BlockPos p_48742_) {
         return true;
     }
 
-    @Override
-    public boolean canStickTo(BlockState state, @NotNull BlockState other) {
-        return !other.isStickyBlock() || other.getBlock() == this;
-    }
+    // FIXME Slime/Honey sticky behavior
+    // @Override
+    // public boolean canStickTo(BlockState state, @NotNull BlockState other) {
+    //     return !other.isStickyBlock() || other.getBlock() == this;
+    // }
 
     public void onPlace(BlockState p_56811_, Level p_56812_, BlockPos p_56813_, BlockState p_56814_, boolean p_56815_) {
         if (!p_56814_.is(p_56811_.getBlock())) {
@@ -80,7 +83,7 @@ public class BlockBananaSlugSlime extends HalfTransparentBlock {
 
     protected void tryAbsorbWater(Level level, BlockPos pos) {
         if (this.removeWaterBreadthFirstSearch(level, pos)) {
-            level.playSound(null, pos, AMSoundRegistry.BANANA_SLUG_SLIME_EXPAND.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, pos, AMSoundRegistry.BANANA_SLUG_SLIME_EXPAND.value(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }
 
@@ -98,19 +101,19 @@ public class BlockBananaSlugSlime extends HalfTransparentBlock {
             if (!state.getFluidState().isEmpty()) {
                 fullBlocks++;
                 if (state.getBlock() instanceof BucketPickup) {
-                    ((BucketPickup) state.getBlock()).pickupBlock(level, blockpos, state);
+                    ((BucketPickup) state.getBlock()).pickupBlock(null, level, blockpos, state);
                     if(level.getBlockState(blockpos).isAir()){
-                        level.setBlockAndUpdate(blockpos, AMBlockRegistry.CRYSTALIZED_BANANA_SLUG_MUCUS.get().defaultBlockState());
+                        level.setBlockAndUpdate(blockpos, AMBlockRegistry.CRYSTALIZED_BANANA_SLUG_MUCUS.value().defaultBlockState());
                     }
                 }else{
-                    level.setBlockAndUpdate(blockpos, AMBlockRegistry.CRYSTALIZED_BANANA_SLUG_MUCUS.get().defaultBlockState());
+                    level.setBlockAndUpdate(blockpos, AMBlockRegistry.CRYSTALIZED_BANANA_SLUG_MUCUS.value().defaultBlockState());
                 }
             }
             for (Direction direction : Direction.values()) {
                 BlockPos blockpos1 = blockpos.relative(direction);
                 BlockState blockstate = level.getBlockState(blockpos1);
                 FluidState fluidstate = level.getFluidState(blockpos1);
-                if (lastFluidState != null && !fluidstate.isEmpty() && lastFluidState.getFluidType() != fluidstate.getFluidType()) {
+                if (lastFluidState != null && !fluidstate.isEmpty() && lastFluidState.getType() != fluidstate.getType()) {
                     continue;
                 }
                 if (blockstate.getBlock() instanceof SimpleWaterloggedBlock) {
@@ -129,9 +132,9 @@ public class BlockBananaSlugSlime extends HalfTransparentBlock {
                     }
                     ++i;
                     fullBlocks++;
-                    ((BucketPickup) blockstate.getBlock()).pickupBlock(level, blockpos1, blockstate);
+                    ((BucketPickup) blockstate.getBlock()).pickupBlock(null, level, blockpos1, blockstate);
                     if(level.getBlockState(blockpos).isAir()){
-                        level.setBlockAndUpdate(blockpos, AMBlockRegistry.CRYSTALIZED_BANANA_SLUG_MUCUS.get().defaultBlockState());
+                        level.setBlockAndUpdate(blockpos, AMBlockRegistry.CRYSTALIZED_BANANA_SLUG_MUCUS.value().defaultBlockState());
                     }
                     if (j < MAX_FLUID_SPREAD) {
                         queue.add(new Tuple<>(blockpos1, j + 1));
@@ -140,7 +143,7 @@ public class BlockBananaSlugSlime extends HalfTransparentBlock {
                     if (!fluidstate.isEmpty()) {
                         lastFluidState = fluidstate;
                     }
-                    level.setBlockAndUpdate(blockpos1, AMBlockRegistry.CRYSTALIZED_BANANA_SLUG_MUCUS.get().defaultBlockState());
+                    level.setBlockAndUpdate(blockpos1, AMBlockRegistry.CRYSTALIZED_BANANA_SLUG_MUCUS.value().defaultBlockState());
                     ++i;
                     if (blockstate.getFluidState().isSource()) {
                         fullBlocks++;

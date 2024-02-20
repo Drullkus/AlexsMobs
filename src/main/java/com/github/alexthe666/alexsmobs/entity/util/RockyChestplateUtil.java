@@ -2,9 +2,8 @@ package com.github.alexthe666.alexsmobs.entity.util;
 
 import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
 import com.github.alexthe666.citadel.Citadel;
-import com.github.alexthe666.citadel.server.entity.CitadelEntityData;
-import com.github.alexthe666.citadel.server.message.PropertiesMessage;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -30,9 +29,10 @@ public class RockyChestplateUtil {
         }
         CitadelEntityData.setCitadelTag(roller, lassoedTag);
         if (!roller.level().isClientSide) {
-            Citadel.sendMSGToAll(new PropertiesMessage("CitadelPatreonConfig", lassoedTag, roller.getId()));
-        }else{
-            Citadel.sendMSGToServer(new PropertiesMessage("CitadelPatreonConfig", lassoedTag, roller.getId()));
+            if (roller.level() instanceof ServerLevel serverLevel)
+            Citadel.sendPropertiesMessageToAll(serverLevel, "CitadelPatreonConfig", lassoedTag, roller.getId());
+        } else {
+            Citadel.sendPropertiesMessageToServer("CitadelPatreonConfig", lassoedTag, roller.getId());
         }
     }
 
@@ -55,7 +55,7 @@ public class RockyChestplateUtil {
 
 
     public static boolean isWearing(LivingEntity entity) {
-        return entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == AMItemRegistry.ROCKY_CHESTPLATE.get();
+        return entity.getItemBySlot(EquipmentSlot.CHEST).getItem() == AMItemRegistry.ROCKY_CHESTPLATE.value();
     }
 
     public static boolean isRockyRolling(LivingEntity entity) {
@@ -74,13 +74,15 @@ public class RockyChestplateUtil {
                 update = true;
                 rollFor(roller, MAX_ROLL_TICKS);
             }
-            if(roller instanceof Player &&  ((Player)roller).getForcedPose() == Pose.SWIMMING){
-                ((Player)roller).setForcedPose(null);
-            }
+            // FIXME Re-add forced rolling
+            //if(roller instanceof Player &&  ((Player)roller).getPose() == Pose.SWIMMING){
+            //    ((Player)roller).setForcedPose(null);
+            //}
         }else{
-            if(roller instanceof Player){
-                ((Player)roller).setForcedPose(Pose.SWIMMING);
-            }
+            // FIXME Re-add forced rolling
+            //if(roller instanceof Player){
+            //    ((Player)roller).setForcedPose(Pose.SWIMMING);
+            //}
             if(!roller.level().isClientSide){
                 for (Entity entity : roller.level().getEntitiesOfClass(LivingEntity.class, roller.getBoundingBox().inflate(1.0F))) {
                     if (!roller.isAlliedTo(entity) && !entity.isAlliedTo(roller) && entity != roller) {
@@ -109,9 +111,9 @@ public class RockyChestplateUtil {
                 update = true;
             }
         }
-        if (!roller.level().isClientSide && update) {
+        if (update && !roller.level().isClientSide && roller.level() instanceof ServerLevel serverLevel) {
             CitadelEntityData.setCitadelTag(roller, tag);
-            Citadel.sendMSGToAll(new PropertiesMessage("CitadelPatreonConfig", tag, roller.getId()));
+            Citadel.sendPropertiesMessageToAll(serverLevel, "CitadelPatreonConfig", tag, roller.getId());
         }
     }
 

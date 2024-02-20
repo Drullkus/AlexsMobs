@@ -86,7 +86,7 @@ public class EntityHammerheadShark extends WaterAnimal {
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)));
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, LivingEntity.class, 50, false, true, INJURED_PREDICATE));
         this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, Squid.class, 50, false, true, null));
-        this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, EntityMimicOctopus.class, 80, false, true, null));
+        //this.targetSelector.addGoal(2, new EntityAINearestTarget3D(this, EntityMimicOctopus.class, 80, false, true, null));
         this.targetSelector.addGoal(3, new EntityAINearestTarget3D(this, AbstractSchoolingFish.class, 70, false, true, null));
     }
 
@@ -156,7 +156,7 @@ public class EntityHammerheadShark extends WaterAnimal {
                     if(dist < 2D){
                         shark.doHurtTarget(prey);
                         if(shark.random.nextFloat() < 0.3F){
-                            shark.spawnAtLocation(new ItemStack(AMItemRegistry.SHARK_TOOTH.get()));
+                            shark.spawnAtLocation(new ItemStack(AMItemRegistry.SHARK_TOOTH.value()));
                         }
                         stop();
                     }

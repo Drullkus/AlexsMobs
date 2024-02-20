@@ -45,7 +45,6 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -77,16 +76,16 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.ANACONDA_HURT.get();
+        return AMSoundRegistry.ANACONDA_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.ANACONDA_HURT.get();
+        return AMSoundRegistry.ANACONDA_HURT.value();
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
         if (!isBaby()) {
-            this.playSound(AMSoundRegistry.ANACONDA_SLITHER.get(), 1.0F, 1.0F);
+            this.playSound(AMSoundRegistry.ANACONDA_SLITHER.value(), 1.0F, 1.0F);
         } else {
             super.playStepSound(pos, state);
         }
@@ -192,12 +191,11 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
         this.entityData.define(SHEDTIME, 0);
     }
 
-    @Nullable
     public UUID getChildId() {
         return this.entityData.get(CHILD_UUID).orElse(null);
     }
 
-    public void setChildId(@Nullable UUID uniqueId) {
+    public void setChildId(UUID uniqueId) {
         this.entityData.set(CHILD_UUID, Optional.ofNullable(uniqueId));
     }
 
@@ -241,9 +239,10 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
         return null;
     }
 
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
+    // FIXME Use CAN_BREATHE_UNDER_WATER tag
+    //public boolean canBreatheUnderwater() {
+    //    return true;
+    //}
 
     public boolean isPushedByFluid() {
         return false;
@@ -331,7 +330,7 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
                 for (int i = 0; i < segments; i++) {
                     final float prevReqRot = calcPartRotation(i) + getYawForPart(i);
                     final float reqRot = calcPartRotation(i + 1) + getYawForPart(i);
-                    EntityAnacondaPart part = new EntityAnacondaPart(AMEntityRegistry.ANACONDA_PART.get(), this);
+                    EntityAnacondaPart part = new EntityAnacondaPart(AMEntityRegistry.ANACONDA_PART.value(), this);
                     part.setParent(partParent);
                     part.copyDataFrom(this);
                     part.setBodyIndex(i);
@@ -387,7 +386,7 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
         if (this.getSheddingTime() > 0) {
             this.setSheddingTime(this.getSheddingTime() - 1);
             if (this.getSheddingTime() == 0) {
-                this.spawnItemAtOffset(new ItemStack(AMItemRegistry.SHED_SNAKE_SKIN.get()), 1 + random.nextFloat(), 0.2F);
+                this.spawnItemAtOffset(new ItemStack(AMItemRegistry.SHED_SNAKE_SKIN.value()), 1 + random.nextFloat(), 0.2F);
                 shedCooldown = 1000 + random.nextInt(2000);
             }
         }
@@ -471,7 +470,6 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
         return (float) (40 * -Math.sin(this.walkDist * 3 - (i))) * f + this.strangleProgress * 0.2F * i * strangleIntensity;
     }
 
-    @Nullable
     public ItemEntity spawnItemAtOffset(ItemStack stack, float f, float f1) {
         if (stack.isEmpty()) {
             return null;
@@ -481,8 +479,9 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
             final Vec3 vec = new Vec3(0, 0, f).yRot(-f * Mth.DEG_TO_RAD);
             final ItemEntity itementity = new ItemEntity(this.level(), this.getX() + vec.x, this.getY() + (double) f1, this.getZ() + vec.z, stack);
             itementity.setDefaultPickUpDelay();
-            if (captureDrops() != null) captureDrops().add(itementity);
-            else this.level().addFreshEntity(itementity);
+            //if (captureDrops() != null) captureDrops().add(itementity);
+            //else
+                this.level().addFreshEntity(itementity);
             return itementity;
         }
     }
@@ -513,10 +512,9 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
         return 12;
     }
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel serverWorld, AgeableMob mob) {
-        EntityAnaconda anaconda = AMEntityRegistry.ANACONDA.get().create(serverWorld);
+        EntityAnaconda anaconda = AMEntityRegistry.ANACONDA.value().create(serverWorld);
         anaconda.setYellow(this.isYellow());
         return anaconda;
     }
@@ -562,8 +560,7 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
         return this.getSheddingTime() > 0;
     }
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         this.setYellow(random.nextBoolean());
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
@@ -590,7 +587,7 @@ public class EntityAnaconda extends Animal implements ISemiAquatic {
                 if (jumpAttemptCooldown == 0 && snake.distanceTo(target) < 1 + target.getBbWidth() && !snake.isStrangling()) {
                     target.hurt(snake.damageSources().mobAttack(snake), 4);
                     snake.setStrangling(target.getBbWidth() <= 2.0F && !(target instanceof EntityAnaconda));
-                    snake.playSound(AMSoundRegistry.ANACONDA_ATTACK.get(), snake.getSoundVolume(), snake.getVoicePitch());
+                    snake.playSound(AMSoundRegistry.ANACONDA_ATTACK.value(), snake.getSoundVolume(), snake.getVoicePitch());
                     jumpAttemptCooldown = 5 + random.nextInt(5);
                 }
                 if (snake.isStrangling()) {

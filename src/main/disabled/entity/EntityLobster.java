@@ -40,9 +40,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 public class EntityLobster extends WaterAnimal implements ISemiAquatic, Bucketable {
 
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(EntityLobster.class, EntityDataSerializers.BOOLEAN);
@@ -75,11 +72,11 @@ public class EntityLobster extends WaterAnimal implements ISemiAquatic, Bucketab
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.LOBSTER_HURT.get();
+        return AMSoundRegistry.LOBSTER_HURT.value();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.LOBSTER_HURT.get();
+        return AMSoundRegistry.LOBSTER_HURT.value();
     }
 
     public boolean checkSpawnObstruction(LevelReader worldIn) {

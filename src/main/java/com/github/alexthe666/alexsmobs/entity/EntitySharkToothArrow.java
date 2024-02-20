@@ -3,6 +3,7 @@ package com.github.alexthe666.alexsmobs.entity;
 import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -13,10 +14,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 public class EntitySharkToothArrow extends Arrow {
 
@@ -30,7 +29,7 @@ public class EntitySharkToothArrow extends Arrow {
     }
 
     public EntitySharkToothArrow(Level worldIn, LivingEntity shooter) {
-        this(AMEntityRegistry.SHARK_TOOTH_ARROW.get(), shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ(), worldIn);
+        this(AMEntityRegistry.SHARK_TOOTH_ARROW.value(), shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ(), worldIn);
         this.setOwner(shooter);
         if (shooter instanceof Player) {
             this.pickup = AbstractArrow.Pickup.ALLOWED;
@@ -38,7 +37,8 @@ public class EntitySharkToothArrow extends Arrow {
     }
 
     protected void damageShield(Player player, float damage) {
-        if (damage >= 3.0F && player.getUseItem().getItem().canPerformAction(player.getUseItem(), ToolActions.SHIELD_BLOCK)) {
+        //if (damage >= 3.0F && player.getUseItem().getItem().canPerformAction(player.getUseItem(), ToolActions.SHIELD_BLOCK)) {
+        if (damage >= 3.0F && player.getUseItem().is(Items.SHIELD)) {
             ItemStack copyBeforeUse = player.getUseItem().copy();
             int i = 1 + Mth.floor(damage);
             player.getUseItem().hurtAndBreak(i, player, (p_213360_0_) -> {
@@ -47,7 +47,7 @@ public class EntitySharkToothArrow extends Arrow {
 
             if (player.getUseItem().isEmpty()) {
                 InteractionHand Hand = player.getUsedItemHand();
-                net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, copyBeforeUse, Hand);
+                //net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, copyBeforeUse, Hand);
 
                 if (Hand == net.minecraft.world.InteractionHand.MAIN_HAND) {
                     this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
@@ -81,19 +81,20 @@ public class EntitySharkToothArrow extends Arrow {
         return false;
     }
 
-    public EntitySharkToothArrow(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AMEntityRegistry.SHARK_TOOTH_ARROW.get(), world);
-    }
+    //public EntitySharkToothArrow(PlayMessages.SpawnEntity spawnEntity, Level world) {
+    //    this(AMEntityRegistry.SHARK_TOOTH_ARROW.value(), world);
+    //}
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+        Entity entity = this.getOwner();
+        return new ClientboundAddEntityPacket(this, entity == null ? 0 : entity.getId());
     }
 
 
     @Override
     protected ItemStack getPickupItem() {
-        return new ItemStack(AMItemRegistry.SHARK_TOOTH_ARROW.get());
+        return new ItemStack(AMItemRegistry.SHARK_TOOTH_ARROW.value());
     }
 
 }

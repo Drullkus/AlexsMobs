@@ -6,6 +6,7 @@ import com.github.alexthe666.alexsmobs.config.AMConfig;
 import com.github.alexthe666.alexsmobs.entity.ai.*;
 import com.github.alexthe666.alexsmobs.entity.util.Maths;
 import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
+import com.github.alexthe666.alexsmobs.item.ItemShieldOfTheDeep;
 import com.github.alexthe666.alexsmobs.misc.AMSoundRegistry;
 import com.github.alexthe666.alexsmobs.misc.AMTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
@@ -48,13 +49,12 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ToolActions;
 
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, ISemiAquatic {
@@ -121,12 +121,11 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
     protected void ageBoundaryReached() {
         super.ageBoundaryReached();
         if (!this.isBaby() && this.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
-            this.spawnAtLocation(new ItemStack(AMItemRegistry.CROCODILE_SCUTE.get(), random.nextInt(1) + 1), 1);
+            this.spawnAtLocation(new ItemStack(AMItemRegistry.CROCODILE_SCUTE.value(), random.nextInt(1) + 1), 1);
         }
     }
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         this.setDesert(this.isBiomeDesert(worldIn, this.blockPosition()));
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
@@ -136,15 +135,15 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
     }
 
     protected SoundEvent getAmbientSound() {
-        return isBaby() ? AMSoundRegistry.CROCODILE_BABY.get() : AMSoundRegistry.CROCODILE_IDLE.get();
+        return isBaby() ? AMSoundRegistry.CROCODILE_BABY.value() : AMSoundRegistry.CROCODILE_IDLE.value();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.CROCODILE_HURT.get();
+        return AMSoundRegistry.CROCODILE_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.CROCODILE_HURT.get();
+        return AMSoundRegistry.CROCODILE_HURT.value();
     }
 
 
@@ -324,7 +323,7 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
                     } else {
                         this.getTarget().hurt(this.damageSources().mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue());
                     }
-                    this.playSound(AMSoundRegistry.CROCODILE_BITE.get(), this.getSoundVolume(), this.getVoicePitch());
+                    this.playSound(AMSoundRegistry.CROCODILE_BITE.value(), this.getSoundVolume(), this.getVoicePitch());
 
                 }
             }
@@ -363,19 +362,21 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
     }
 
     protected void damageShieldFor(Player holder, float damage) {
-        if (holder.getUseItem().canPerformAction(ToolActions.SHIELD_BLOCK)) {
+        //if (holder.getUseItem().canPerformAction(ToolActions.SHIELD_BLOCK)) {
+        ItemStack shieldingItem = holder.getUseItem();
+        if (shieldingItem.getItem() instanceof ShieldItem || shieldingItem.getItem() instanceof ItemShieldOfTheDeep) {
             if (!this.level().isClientSide) {
-                holder.awardStat(Stats.ITEM_USED.get(holder.getUseItem().getItem()));
+                holder.awardStat(Stats.ITEM_USED.get(shieldingItem.getItem()));
             }
 
             if (damage >= 3.0F) {
                 int i = 1 + Mth.floor(damage);
                 InteractionHand hand = holder.getUsedItemHand();
-                holder.getUseItem().hurtAndBreak(i, holder, (p_213833_1_) -> {
+                shieldingItem.hurtAndBreak(i, holder, (p_213833_1_) -> {
                     p_213833_1_.broadcastBreakEvent(hand);
-                    net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(holder, holder.getUseItem(), hand);
+                    //net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(holder, holder.getUseItem(), hand);
                 });
-                if (holder.getUseItem().isEmpty()) {
+                if (shieldingItem.isEmpty()) {
                     if (hand == InteractionHand.MAIN_HAND) {
                         holder.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
                     } else {
@@ -392,7 +393,6 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
         return super.isImmobile() || this.getStunTicks() > 0;
     }
 
-    @Override
     public boolean canRiderInteract() {
         return true;
     }
@@ -435,7 +435,6 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
         }
     }
 
-    @Nullable
     public LivingEntity getControllingPassenger() {
         return null;
     }
@@ -480,9 +479,10 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
         return source.is(DamageTypes.DROWN) || source.is(DamageTypes.IN_WALL)  || super.isInvulnerableTo(source);
     }
 
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
+    // FIXME Tag
+    //public boolean canBreatheUnderwater() {
+    //    return true;
+    //}
 
     public float getWalkTargetValue(BlockPos pos, LevelReader worldIn) {
         return super.getWalkTargetValue(pos, worldIn);
@@ -593,10 +593,9 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
         }
     }
 
-    @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel p_241840_1_, AgeableMob p_241840_2_) {
-        return AMEntityRegistry.CROCODILE.get().create(p_241840_1_);
+        return AMEntityRegistry.CROCODILE.value().create(p_241840_1_);
     }
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -627,7 +626,7 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
         return type;
     }
 
-    public void setTarget(@Nullable LivingEntity entitylivingbaseIn) {
+    public void setTarget(LivingEntity entitylivingbaseIn) {
         if (!this.isBaby()) {
             super.setTarget(entitylivingbaseIn);
         }
@@ -746,7 +745,7 @@ public class EntityCrocodile extends TamableAnimal implements IAnimatedEntity, I
                 final Level world = this.turtle.level();
                 turtle.gameEvent(GameEvent.BLOCK_PLACE);
                 world.playSound(null, blockpos, SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
-                world.setBlock(this.blockPos.above(), AMBlockRegistry.CROCODILE_EGG.get().defaultBlockState().setValue(BlockReptileEgg.EGGS, Integer.valueOf(this.turtle.random.nextInt(1) + 1)), 3);
+                world.setBlock(this.blockPos.above(), AMBlockRegistry.CROCODILE_EGG.value().defaultBlockState().setValue(BlockReptileEgg.EGGS, Integer.valueOf(this.turtle.random.nextInt(1) + 1)), 3);
                 this.turtle.setHasEgg(false);
                 this.turtle.setDigging(false);
                 this.turtle.setInLoveTime(600);

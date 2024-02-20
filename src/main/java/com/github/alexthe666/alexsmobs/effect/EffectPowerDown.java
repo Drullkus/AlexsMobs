@@ -24,8 +24,8 @@ public class EffectPowerDown extends MobEffect {
             entity.setDeltaMovement(entity.getDeltaMovement().multiply(1, 0, 1));
         }
         if(firstDuration == lastDuration){
-            entity.playSound(AMSoundRegistry.APRIL_FOOLS_POWER_OUTAGE.get(), 1.5F, 1);
-            entity.gameEvent(GameEvent.ENTITY_ROAR);
+            entity.playSound(AMSoundRegistry.APRIL_FOOLS_POWER_OUTAGE.value(), 1.5F, 1);
+            entity.gameEvent(GameEvent.ENTITY_ACTION);
         }
     }
 
@@ -45,16 +45,18 @@ public class EffectPowerDown extends MobEffect {
         return duration > 0;
     }
 
-    public void removeAttributeModifiers(LivingEntity entity, AttributeMap map, int i) {
+    @Override
+    public void removeAttributeModifiers(AttributeMap map) {
         lastDuration = -1;
         firstDuration = -1;
-        super.removeAttributeModifiers(entity, map, i);
+        super.removeAttributeModifiers(map);
     }
 
-    public void addAttributeModifiers(LivingEntity entity, AttributeMap map, int i) {
+    @Override
+    public void addAttributeModifiers(AttributeMap map, int i) {
         lastDuration = -1;
         firstDuration = -1;
-        super.addAttributeModifiers(entity, map, i);
+        super.addAttributeModifiers(map, i);
     }
 
     public String getDescriptionId() {

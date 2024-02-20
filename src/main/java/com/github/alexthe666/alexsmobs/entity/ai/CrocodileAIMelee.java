@@ -14,18 +14,20 @@ public class CrocodileAIMelee extends MeleeAttackGoal {
         this.crocodile = crocodile;
     }
 
+    @Override
     public boolean canUse() {
 
         return super.canUse() && crocodile.getPassengers().isEmpty();
     }
 
+    @Override
     public boolean canContinueToUse() {
         return super.canContinueToUse() && crocodile.getPassengers().isEmpty();
     }
 
-    protected void checkAndPerformAttack(LivingEntity enemy, double distToEnemySqr) {
-        double d0 = this.getAttackReachSqr(enemy);
-        if (distToEnemySqr <= d0) {
+    @Override
+    protected void checkAndPerformAttack(LivingEntity enemy) {
+        if (this.canPerformAttack(enemy)) {
             this.resetAttackCooldown();
             this.mob.swing(InteractionHand.MAIN_HAND);
             this.mob.doHurtTarget(enemy);

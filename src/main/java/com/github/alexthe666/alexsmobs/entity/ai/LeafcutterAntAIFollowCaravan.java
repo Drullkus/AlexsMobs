@@ -2,7 +2,6 @@ package com.github.alexthe666.alexsmobs.entity.ai;
 
 import com.github.alexthe666.alexsmobs.AlexsMobs;
 import com.github.alexthe666.alexsmobs.entity.EntityLeafcutterAnt;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 
@@ -35,25 +34,23 @@ public class LeafcutterAntAIFollowCaravan extends Goal {
             EntityLeafcutterAnt LeafcutterAnt = null;
             double d0 = Double.MAX_VALUE;
 
-            for(Entity entity : list) {
-                EntityLeafcutterAnt LeafcutterAnt1 = (EntityLeafcutterAnt)entity;
-                if (LeafcutterAnt1.inCaravan() && !LeafcutterAnt1.hasCaravanTrail()) {
-                    double d1 = this.ant.distanceToSqr(LeafcutterAnt1);
+            for(EntityLeafcutterAnt leafCutterAnt : list) {
+				if (leafCutterAnt.inCaravan() && !leafCutterAnt.hasCaravanTrail()) {
+                    double d1 = this.ant.distanceToSqr(leafCutterAnt);
                     if (!(d1 > d0)) {
                         d0 = d1;
-                        LeafcutterAnt = LeafcutterAnt1;
+                        LeafcutterAnt = leafCutterAnt;
                     }
                 }
             }
 
             if (LeafcutterAnt == null) {
-                for(Entity entity1 : list) {
-                    EntityLeafcutterAnt llamaentity2 = (EntityLeafcutterAnt)entity1;
-                    if (llamaentity2.shouldLeadCaravan() && !llamaentity2.hasCaravanTrail()) {
-                        double d2 = this.ant.distanceToSqr(llamaentity2);
+                for(EntityLeafcutterAnt leafCutterAnt : list) {
+					if (leafCutterAnt.shouldLeadCaravan() && !leafCutterAnt.hasCaravanTrail()) {
+                        double d2 = this.ant.distanceToSqr(leafCutterAnt);
                         if (!(d2 > d0)) {
                             d0 = d2;
-                            LeafcutterAnt = llamaentity2;
+                            LeafcutterAnt = leafCutterAnt;
                         }
                     }
                 }

@@ -2,7 +2,7 @@ package com.github.alexthe666.alexsmobs.entity.ai;
 
 import com.github.alexthe666.alexsmobs.config.AMConfig;
 import com.github.alexthe666.alexsmobs.entity.EntitySeagull;
-import com.github.alexthe666.alexsmobs.misc.AMAdvancementTriggerRegistry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -11,7 +11,6 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -78,9 +77,9 @@ public class SeagullAIStealFromPlayers extends Goal {
                     seagull.setItemInHand(InteractionHand.MAIN_HAND, copy);
                     fleeTime = 60;
                     seagull.stealCooldown = 1500 + seagull.getRandom().nextInt(1500);
-                    if(target instanceof ServerPlayer){
-                        AMAdvancementTriggerRegistry.SEAGULL_STEAL.trigger((ServerPlayer)target);
-                    }
+                    //if(target instanceof ServerPlayer){
+                    //    AMAdvancementTriggerRegistry.SEAGULL_STEAL.trigger((ServerPlayer)target);
+                    //}
                 }else{
                     stop();
                 }
@@ -127,7 +126,7 @@ public class SeagullAIStealFromPlayers extends Goal {
     }
 
     private boolean isBlacklisted(ItemStack stack){
-        ResourceLocation loc = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        ResourceLocation loc = BuiltInRegistries.ITEM.getKey(stack.getItem());
         if(loc != null){
             for(String str : AMConfig.seagullStealingBlacklist){
                 if(loc.toString().equals(str)){

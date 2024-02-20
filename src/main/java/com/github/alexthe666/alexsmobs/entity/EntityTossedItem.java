@@ -6,10 +6,12 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -19,10 +21,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraftforge.network.PlayMessages;
 
 public class EntityTossedItem extends ThrowableItemProjectile {
 
@@ -33,15 +31,11 @@ public class EntityTossedItem extends ThrowableItemProjectile {
     }
 
     public EntityTossedItem(Level worldIn, LivingEntity throwerIn) {
-        super(AMEntityRegistry.TOSSED_ITEM.get(), throwerIn, worldIn);
+        super(AMEntityRegistry.TOSSED_ITEM.value(), throwerIn, worldIn);
     }
 
     public EntityTossedItem(Level worldIn, double x, double y, double z) {
-        super(AMEntityRegistry.TOSSED_ITEM.get(), x, y, z, worldIn);
-    }
-
-    public EntityTossedItem(PlayMessages.SpawnEntity spawnEntity, Level world) {
-        this(AMEntityRegistry.TOSSED_ITEM.get(), world);
+        super(AMEntityRegistry.TOSSED_ITEM.value(), x, y, z, worldIn);
     }
 
     @Override
@@ -60,10 +54,11 @@ public class EntityTossedItem extends ThrowableItemProjectile {
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+        Entity entity = this.getOwner();
+        return new ClientboundAddEntityPacket(this, entity == null ? 0 : entity.getId());
     }
 
-    @OnlyIn(Dist.CLIENT)
+    @Override
     public void handleEntityEvent(byte id) {
         if (id == 3) {
             double d0 = 0.08D;
@@ -76,7 +71,7 @@ public class EntityTossedItem extends ThrowableItemProjectile {
     }
 
 
-    @OnlyIn(Dist.CLIENT)
+    @Override
     public void lerpMotion(double x, double y, double z) {
         this.setDeltaMovement(x, y, z);
         if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
@@ -87,9 +82,9 @@ public class EntityTossedItem extends ThrowableItemProjectile {
             this.yRotO = this.getYRot();
             this.moveTo(this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
         }
-
     }
 
+    @Override
     public void tick() {
         super.tick();
         Vec3 vector3d = this.getDeltaMovement();
@@ -111,6 +106,7 @@ public class EntityTossedItem extends ThrowableItemProjectile {
     }
 
 
+    @Override
     protected void onHitEntity(EntityHitResult p_213868_1_) {
         super.onHitEntity(p_213868_1_);
         if(this.getOwner() instanceof EntityCapuchinMonkey){
@@ -121,14 +117,17 @@ public class EntityTossedItem extends ThrowableItemProjectile {
         }
     }
 
+    @Override
     public void addAdditionalSaveData(CompoundTag compound) {
         compound.putBoolean("Dart", this.isDart());
     }
 
+    @Override
     public void readAdditionalSaveData(CompoundTag compound) {
         this.setDart(compound.getBoolean("Dart"));
     }
 
+    @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
         if (!this.level().isClientSide && (!this.isDart() || result.getType() == HitResult.Type.BLOCK)) {
@@ -137,7 +136,8 @@ public class EntityTossedItem extends ThrowableItemProjectile {
         }
     }
 
+    @Override
     protected Item getDefaultItem() {
-        return isDart() ? AMItemRegistry.ANCIENT_DART.get() : Items.COBBLESTONE;
+        return isDart() ? AMItemRegistry.ANCIENT_DART.value() : Items.COBBLESTONE;
     }
 }

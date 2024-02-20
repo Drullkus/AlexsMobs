@@ -7,6 +7,7 @@ import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
 import com.github.alexthe666.alexsmobs.misc.AMTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -49,10 +50,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
@@ -213,7 +211,6 @@ public class EntityCatfish extends WaterAnimal implements FlyingAnimal, Bucketab
         }
     }
 
-    @Nullable
     protected ResourceLocation getDefaultLootTable() {
         if (this.getCatfishSize() == 2) {
             return LARGE_LOOT;
@@ -239,7 +236,7 @@ public class EntityCatfish extends WaterAnimal implements FlyingAnimal, Bucketab
     }
 
     @Override
-    public void saveToBucketTag(@Nonnull ItemStack bucket) {
+    public void saveToBucketTag(ItemStack bucket) {
         if (this.hasCustomName()) {
             bucket.setHoverName(this.getCustomName());
         }
@@ -249,7 +246,7 @@ public class EntityCatfish extends WaterAnimal implements FlyingAnimal, Bucketab
     }
 
     @Override
-    public void loadFromBucketTag(@Nonnull CompoundTag compound) {
+    public void loadFromBucketTag(CompoundTag compound) {
         Bucketable.loadDefaultDataFromBucketTag(this, compound);
         readAdditionalSaveData(compound);
     }
@@ -258,9 +255,9 @@ public class EntityCatfish extends WaterAnimal implements FlyingAnimal, Bucketab
     public ItemStack getBucketItemStack() {
         final int catfishSize = this.getCatfishSize();
         final Item item = switch (catfishSize) {
-            case 1 -> AMItemRegistry.MEDIUM_CATFISH_BUCKET.get();
-            case 2 -> AMItemRegistry.LARGE_CATFISH_BUCKET.get();
-            default -> AMItemRegistry.SMALL_CATFISH_BUCKET.get();
+            case 1 -> AMItemRegistry.MEDIUM_CATFISH_BUCKET.value();
+            case 2 -> AMItemRegistry.LARGE_CATFISH_BUCKET.value();
+            default -> AMItemRegistry.SMALL_CATFISH_BUCKET.value();
         };
         return new ItemStack(item);
     }
@@ -329,8 +326,7 @@ public class EntityCatfish extends WaterAnimal implements FlyingAnimal, Bucketab
     }
 
     @Override
-    @Nonnull
-    protected InteractionResult mobInteract(@Nonnull Player player, @Nonnull InteractionHand hand) {
+    protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (stack.getItem() == Items.SEA_PICKLE) {
             this.spit();
@@ -389,8 +385,7 @@ public class EntityCatfish extends WaterAnimal implements FlyingAnimal, Bucketab
         };
     }
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         this.setCatfishSize(random.nextFloat() < 0.35F ? 1 : 0);
         if (random.nextFloat() < 0.1F) {
             final Holder<Biome> holder = worldIn.getBiome(this.blockPosition());
@@ -455,7 +450,7 @@ public class EntityCatfish extends WaterAnimal implements FlyingAnimal, Bucketab
     public boolean swallowEntity(Entity entity) {
         if (this.getCatfishSize() == 2 && entity instanceof final Mob mob) {
             this.setHasSwallowedEntity(true);
-            final ResourceLocation mobtype = ForgeRegistries.ENTITY_TYPES.getKey(mob.getType());
+            final ResourceLocation mobtype = BuiltInRegistries.ENTITY_TYPE.getKey(mob.getType());
             if (mobtype != null) {
                 this.setSwallowedEntityType(mobtype.toString());
             }
@@ -481,7 +476,7 @@ public class EntityCatfish extends WaterAnimal implements FlyingAnimal, Bucketab
         this.eatCooldown = 60 + random.nextInt(60);
         if (this.getCatfishSize() == 2) {
             if (this.hasSwallowedEntity()) {
-                EntityType type = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(this.getSwallowedEntityType()));
+                EntityType type = BuiltInRegistries.ENTITY_TYPE.get(new ResourceLocation(this.getSwallowedEntityType()));
                 if (type != null) {
                     Entity entity = type.create(level());
                     if (entity instanceof final LivingEntity alive) {

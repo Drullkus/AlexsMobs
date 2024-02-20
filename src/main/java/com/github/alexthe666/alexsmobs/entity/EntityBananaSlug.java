@@ -71,11 +71,11 @@ public class EntityBananaSlug extends Animal {
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.BANANA_SLUG_HURT.get();
+        return AMSoundRegistry.BANANA_SLUG_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.BANANA_SLUG_HURT.get();
+        return AMSoundRegistry.BANANA_SLUG_HURT.value();
     }
 
 
@@ -110,12 +110,12 @@ public class EntityBananaSlug extends Animal {
 
     }
 
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
+    // FIXME Tag
+    //public boolean canBreatheUnderwater() {
+    //    return true;
+    //}
 
-    @javax.annotation.Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn, @javax.annotation.Nullable CompoundTag dataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, SpawnGroupData spawnDataIn, CompoundTag dataTag) {
         this.setVariant(random.nextInt(4));
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
     }
@@ -245,7 +245,7 @@ public class EntityBananaSlug extends Animal {
             }
         }
         if (!this.level().isClientSide && this.isAlive() && !this.isBaby() && --this.timeUntilSlime <= 0) {
-            this.spawnAtLocation(AMItemRegistry.BANANA_SLUG_SLIME.get());
+            this.spawnAtLocation(AMItemRegistry.BANANA_SLUG_SLIME.value());
             this.timeUntilSlime = this.random.nextInt(12000) + 24000;
         }
     }
@@ -309,7 +309,7 @@ public class EntityBananaSlug extends Animal {
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) {
-        EntityBananaSlug slug = AMEntityRegistry.BANANA_SLUG.get().create(level());
+        EntityBananaSlug slug = AMEntityRegistry.BANANA_SLUG.value().create(level());
         slug.setVariant(this.getVariant());
         return slug;
     }

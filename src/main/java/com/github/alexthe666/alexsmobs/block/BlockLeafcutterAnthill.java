@@ -1,14 +1,12 @@
 package com.github.alexthe666.alexsmobs.block;
 
 import com.github.alexthe666.alexsmobs.entity.EntityLeafcutterAnt;
-import com.github.alexthe666.alexsmobs.entity.EntityManedWolf;
 import com.github.alexthe666.alexsmobs.item.AMItemRegistry;
-import com.github.alexthe666.alexsmobs.misc.AMAdvancementTriggerRegistry;
 import com.github.alexthe666.alexsmobs.tileentity.AMTileEntityRegistry;
 import com.github.alexthe666.alexsmobs.tileentity.TileEntityLeafcutterAnthill;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -32,7 +30,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class BlockLeafcutterAnthill extends BaseEntityBlock {
@@ -41,11 +38,12 @@ public class BlockLeafcutterAnthill extends BaseEntityBlock {
         super(BlockBehaviour.Properties.of().sound(SoundType.GRAVEL).strength(0.75F));
     }
 
+    @Override
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (worldIn.getBlockEntity(pos) instanceof TileEntityLeafcutterAnthill) {
             TileEntityLeafcutterAnthill hill = (TileEntityLeafcutterAnthill) worldIn.getBlockEntity(pos);
             ItemStack heldItem = player.getItemInHand(handIn);
-            if (heldItem.getItem() == AMItemRegistry.GONGYLIDIA.get() && hill.hasQueen()) {
+            if (heldItem.getItem() == AMItemRegistry.GONGYLIDIA.value() && hill.hasQueen()) {
                 hill.releaseQueens();
                 if (!player.isCreative()) {
                     heldItem.shrink(1);
@@ -57,11 +55,18 @@ public class BlockLeafcutterAnthill extends BaseEntityBlock {
     }
 
 
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return null;
+    }
+
+    @Override
     public RenderShape getRenderShape(BlockState p_149645_1_) {
         return RenderShape.MODEL;
     }
 
-    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
+    @Override
+    public BlockState playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
         if (!worldIn.isClientSide && player.isCreative() && worldIn.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
             BlockEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof TileEntityLeafcutterAnthill) {
@@ -69,7 +74,7 @@ public class BlockLeafcutterAnthill extends BaseEntityBlock {
                 ItemStack itemstack = new ItemStack(this);
                 boolean flag = !anthivetileentity.hasNoAnts();
                 if (!flag) {
-                    return;
+                    return state;
                 }
                 if (flag) {
                     CompoundTag compoundnbt = new CompoundTag();
@@ -84,24 +89,28 @@ public class BlockLeafcutterAnthill extends BaseEntityBlock {
             }
         }
 
-        super.playerWillDestroy(worldIn, pos, state, player);
+        return super.playerWillDestroy(worldIn, pos, state, player);
     }
 
+    // FIXME Porting exclusions
+    @Override
     public void fallOn(Level worldIn, BlockState state, BlockPos pos, Entity entityIn, float fallDistance) {
-        if (entityIn instanceof LivingEntity && !(entityIn instanceof EntityManedWolf)) {
+        //if (entityIn instanceof LivingEntity && !(entityIn instanceof EntityManedWolf)) {
+        if (entityIn instanceof LivingEntity) {
             this.angerNearbyAnts(worldIn, (LivingEntity) entityIn, pos);
             if (!worldIn.isClientSide && worldIn.getBlockEntity(pos) instanceof TileEntityLeafcutterAnthill) {
                 TileEntityLeafcutterAnthill beehivetileentity = (TileEntityLeafcutterAnthill) worldIn.getBlockEntity(pos);
                 beehivetileentity.angerAnts((LivingEntity) entityIn, worldIn.getBlockState(pos), BeehiveBlockEntity.BeeReleaseStatus.EMERGENCY);
-                if(entityIn instanceof ServerPlayer){
-                    AMAdvancementTriggerRegistry.STOMP_LEAFCUTTER_ANTHILL.trigger((ServerPlayer)entityIn);
-                }
+                //if(entityIn instanceof ServerPlayer){
+                //    AMAdvancementTriggerRegistry.STOMP_LEAFCUTTER_ANTHILL.trigger((ServerPlayer)entityIn);
+                //}
             }
         }
         super.fallOn(worldIn, state, pos, entityIn, fallDistance);
     }
 
-    public void playerDestroy(Level worldIn, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
+    @Override
+    public void playerDestroy(Level worldIn, Player player, BlockPos pos, BlockState state, BlockEntity te, ItemStack stack) {
         super.playerDestroy(worldIn, player, pos, state, te, stack);
         if (!worldIn.isClientSide && te instanceof TileEntityLeafcutterAnthill) {
             TileEntityLeafcutterAnthill beehivetileentity = (TileEntityLeafcutterAnthill) te;
@@ -141,14 +150,13 @@ public class BlockLeafcutterAnthill extends BaseEntityBlock {
     }
 
 
-    @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new TileEntityLeafcutterAnthill(pos, state);
     }
 
-    @Nullable
+    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
-        return p_152180_.isClientSide ? null : createTickerHelper(p_152182_, AMTileEntityRegistry.LEAFCUTTER_ANTHILL.get(), TileEntityLeafcutterAnthill::serverTick);
+        return p_152180_.isClientSide ? null : createTickerHelper(p_152182_, AMTileEntityRegistry.LEAFCUTTER_ANTHILL.value(), TileEntityLeafcutterAnthill::serverTick);
     }
 }

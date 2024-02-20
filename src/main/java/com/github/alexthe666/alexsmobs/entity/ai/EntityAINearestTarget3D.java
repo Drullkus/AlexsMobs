@@ -5,7 +5,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.phys.AABB;
 
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class EntityAINearestTarget3D<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {
@@ -17,7 +16,7 @@ public class EntityAINearestTarget3D<T extends LivingEntity> extends NearestAtta
         super(goalOwnerIn, targetClassIn, checkSight, nearbyOnlyIn);
     }
 
-    public EntityAINearestTarget3D(Mob goalOwnerIn, Class<T> targetClassIn, int targetChanceIn, boolean checkSight, boolean nearbyOnlyIn, @Nullable Predicate<LivingEntity> targetPredicate) {
+    public EntityAINearestTarget3D(Mob goalOwnerIn, Class<T> targetClassIn, int targetChanceIn, boolean checkSight, boolean nearbyOnlyIn, Predicate<LivingEntity> targetPredicate) {
         super(goalOwnerIn, targetClassIn, targetChanceIn, checkSight, nearbyOnlyIn, targetPredicate);
     }
 

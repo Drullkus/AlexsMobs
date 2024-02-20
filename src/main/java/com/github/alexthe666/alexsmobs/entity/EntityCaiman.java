@@ -21,6 +21,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -50,7 +51,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ForgeMod;
 import org.jetbrains.annotations.Nullable;
 
 public class EntityCaiman extends TamableAnimal implements ISemiAquatic,IFollower {
@@ -98,7 +98,7 @@ public class EntityCaiman extends TamableAnimal implements ISemiAquatic,IFollowe
         this.goalSelector.addGoal(3, new BreathAirGoal(this));
         this.goalSelector.addGoal(4, new TameableAIFollowOwnerWater(this, 1.1D, 4.0F, 2.0F, false));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.2F, false));
-        this.goalSelector.addGoal(6, new TemptGoal(this, 1.1D, Ingredient.of(AMItemRegistry.COOKED_CATFISH.get(), AMItemRegistry.RAW_CATFISH.get()), false));
+        this.goalSelector.addGoal(6, new TemptGoal(this, 1.1D, Ingredient.of(AMItemRegistry.COOKED_CATFISH.value(), AMItemRegistry.RAW_CATFISH.value()), false));
         this.goalSelector.addGoal(7, new AnimalAIFindWater(this));
         this.goalSelector.addGoal(7, new AnimalAILeaveWater(this));
         this.goalSelector.addGoal(8, new CaimanAIBellow(this));
@@ -150,7 +150,7 @@ public class EntityCaiman extends TamableAnimal implements ISemiAquatic,IFollowe
     }
 
     public boolean isFood(ItemStack stack) {
-        return stack.is(AMItemRegistry.RAW_CATFISH.get()) || stack.is(AMItemRegistry.COOKED_CATFISH.get());
+        return stack.is(AMItemRegistry.RAW_CATFISH.value()) || stack.is(AMItemRegistry.COOKED_CATFISH.value());
     }
 
     private void switchNavigator(boolean onLand) {
@@ -174,15 +174,15 @@ public class EntityCaiman extends TamableAnimal implements ISemiAquatic,IFollowe
     }
 
     protected SoundEvent getAmbientSound() {
-        return isBaby() ? AMSoundRegistry.CROCODILE_BABY.get() : AMSoundRegistry.CAIMAN_IDLE.get();
+        return isBaby() ? AMSoundRegistry.CROCODILE_BABY.value() : AMSoundRegistry.CAIMAN_IDLE.value();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return AMSoundRegistry.CAIMAN_HURT.get();
+        return AMSoundRegistry.CAIMAN_HURT.value();
     }
 
     protected SoundEvent getDeathSound() {
-        return AMSoundRegistry.CAIMAN_HURT.get();
+        return AMSoundRegistry.CAIMAN_HURT.value();
     }
 
     public void tick() {
@@ -248,7 +248,7 @@ public class EntityCaiman extends TamableAnimal implements ISemiAquatic,IFollowe
                 int particles = 4 + getRandom().nextInt(3);
                 for (int i = 0; i <= particles; i++) {
                     Vec3 particleVec = new Vec3(0, 0, 1.0F).yRot((i / (float) particles) * (Mth.PI) * 2F).add(this.position());
-                    double particleY = this.getBoundingBox().minY + getFluidTypeHeight(ForgeMod.WATER_TYPE.get());
+                    double particleY = this.getBoundingBox().minY + getFluidHeight(FluidTags.WATER);
                     this.level().addParticle(ParticleTypes.SPLASH, particleVec.x, particleY, particleVec.z, 0, 0.3F, 0);
                 }
             }
@@ -365,9 +365,9 @@ public class EntityCaiman extends TamableAnimal implements ISemiAquatic,IFollowe
         this.walkAnimation.update(f2, 0.4F);
     }
 
-    public boolean canBreatheUnderwater() {
-        return true;
-    }
+    //public boolean canBreatheUnderwater() {
+    //    return true; // FIXME EntityTypeTags.CAN_BREATHE_UNDER_WATER
+    //}
 
     @Override
     public boolean shouldEnterWater() {
@@ -502,7 +502,7 @@ public class EntityCaiman extends TamableAnimal implements ISemiAquatic,IFollowe
                 Level world = this.caiman.level();
                 caiman.gameEvent(GameEvent.BLOCK_PLACE);
                 world.playSound(null, blockpos, SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, 0.3F, 0.9F + world.random.nextFloat() * 0.2F);
-                world.setBlock(this.blockPos.above(), AMBlockRegistry.CAIMAN_EGG.get().defaultBlockState().setValue(BlockReptileEgg.EGGS, Integer.valueOf(this.caiman.random.nextInt(1) + 3)), 3);
+                world.setBlock(this.blockPos.above(), AMBlockRegistry.CAIMAN_EGG.value().defaultBlockState().setValue(BlockReptileEgg.EGGS, Integer.valueOf(this.caiman.random.nextInt(1) + 3)), 3);
                 this.caiman.setHasEgg(false);
                 this.caiman.setInLoveTime(600);
             }

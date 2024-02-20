@@ -34,14 +34,14 @@ public class EffectFleetFooted extends MobEffect {
             removeEffectAfter = 5;
         }
         if (removeEffectAfter <= 0 || lastDuration < 2) {
-            modifiableattributeinstance.removeModifier(SPRINT_JUMP_SPEED_BONUS);
+            modifiableattributeinstance.removeModifier(SPRINT_JUMP_SPEED_MODIFIER);
         }
     }
 
     public void removeAttributeModifiers(LivingEntity livingEntity, AttributeMap attributeMap, int level) {
         AttributeInstance modifiableattributeinstance = livingEntity.getAttribute(Attributes.MOVEMENT_SPEED);
         if(modifiableattributeinstance != null && modifiableattributeinstance.hasModifier(SPRINT_JUMP_SPEED_BONUS)){
-            modifiableattributeinstance.removeModifier(SPRINT_JUMP_SPEED_BONUS);
+            modifiableattributeinstance.removeModifier(SPRINT_JUMP_SPEED_MODIFIER);
         }
     }
 
