@@ -22,7 +22,8 @@ public class AMCreativeTabRegistry {
     public static final Holder<CreativeModeTab> TAB = Registry.registerForHolder(BuiltInRegistries.CREATIVE_MODE_TAB, new ResourceLocation(AlexsMobs.MODID, AlexsMobs.MODID), FabricItemGroup.builder()
             .title(Component.translatable("itemGroup." + AlexsMobs.MODID))
             //.withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
-            .icon(() -> new ItemStack(AMItemRegistry.TAB_ICON.value()))
+            //.icon(() -> new ItemStack(AMItemRegistry.TAB_ICON.value()))
+            .icon(() -> new ItemStack(AMItemRegistry.BANANA.value()))
             .displayItems((enabledFeatures, output) -> {
                 for(Item item : BuiltInRegistries.ITEM) {
 					if (!item.builtInRegistryHolder().key().location().getNamespace().equals(AlexsMobs.MODID)) continue;
