@@ -1,20 +1,20 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:leaves",
-    "#minecraft:saplings",
-    "minecraft:sugar_cane",
-    "minecraft:apple",
-    "minecraft:beetroot",
-    "minecraft:potato",
-    "minecraft:carrot",
-    "minecraft:golden_carrot",
-    "minecraft:baked_potato",
-    "minecraft:hay_block",
-    "minecraft:bamboo",
-    "#alexsmobs:bananas",
-    "alexsmobs:acacia_blossom",
-    "minecraft:melon_slice",
-    "minecraft:sweet_berries"
+    { "required": false, "id": "#minecraft:leaves" },
+    { "required": false, "id": "#minecraft:saplings" },
+    { "required": false, "id": "minecraft:sugar_cane" },
+    { "required": false, "id": "minecraft:apple" },
+    { "required": false, "id": "minecraft:beetroot" },
+    { "required": false, "id": "minecraft:potato" },
+    { "required": false, "id": "minecraft:carrot" },
+    { "required": false, "id": "minecraft:golden_carrot" },
+    { "required": false, "id": "minecraft:baked_potato" },
+    { "required": false, "id": "minecraft:hay_block" },
+    { "required": false, "id": "minecraft:bamboo" },
+    { "required": false, "id": "#alexsmobs:bananas" },
+    { "required": false, "id": "alexsmobs:acacia_blossom" },
+    { "required": false, "id": "minecraft:melon_slice" },
+    { "required": false, "id": "minecraft:sweet_berries" }
   ]
 }

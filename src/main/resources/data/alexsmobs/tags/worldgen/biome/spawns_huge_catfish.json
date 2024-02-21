@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#forge:is_swamp"
+    { "required": false, "id": "#forge:is_swamp" }
   ]
 }

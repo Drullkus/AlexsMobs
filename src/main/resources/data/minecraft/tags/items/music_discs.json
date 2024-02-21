@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:music_disc_daze",
-    "alexsmobs:music_disc_thime"
+    { "required": false, "id": "alexsmobs:music_disc_daze" },
+    { "required": false, "id": "alexsmobs:music_disc_thime" }
   ]
 }

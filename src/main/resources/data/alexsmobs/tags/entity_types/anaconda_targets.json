@@ -2,19 +2,19 @@
   "__comment": "all non-player targets of the tiger mob.",
   "replace": false,
   "values": [
-    "#alexsmobs:passive_land_animals",
-    "#alexsmobs:villagers",
-    "alexsmobs:kangaroo",
-    "alexsmobs:crocodile",
-    "alexsmobs:snow_leopard",
-    "alexsmobs:moose",
-    "alexsmobs:gelada_monkey",
-    "alexsmobs:terrapin",
-    "minecraft:dolphin",
-    "alexsmobs:catfish",
-    "alexsmobs:flying_fish",
-    "alexsmobs:devils_hole_pupfish",
-    "alexsmobs:caiman",
-    "alexsmobs:triops"
+    { "required": false, "id": "#alexsmobs:passive_land_animals" },
+    { "required": false, "id": "#alexsmobs:villagers" },
+    { "required": false, "id": "alexsmobs:kangaroo" },
+    { "required": false, "id": "alexsmobs:crocodile" },
+    { "required": false, "id": "alexsmobs:snow_leopard" },
+    { "required": false, "id": "alexsmobs:moose" },
+    { "required": false, "id": "alexsmobs:gelada_monkey" },
+    { "required": false, "id": "alexsmobs:terrapin" },
+    { "required": false, "id": "minecraft:dolphin" },
+    { "required": false, "id": "alexsmobs:catfish" },
+    { "required": false, "id": "alexsmobs:flying_fish" },
+    { "required": false, "id": "alexsmobs:devils_hole_pupfish" },
+    { "required": false, "id": "alexsmobs:caiman" },
+    { "required": false, "id": "alexsmobs:triops" }
   ]
 }

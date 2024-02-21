@@ -2,10 +2,25 @@
   "#comment": "For the desert pet store cage",
   "replace": false,
   "values": [
-    "alexsmobs:capuchin_monkey",
-    "alexsmobs:flutter",
-    "alexsmobs:maned_wolf",
-    "alexsmobs:jerboa",
-    "alexsmobs:sugar_glider"
+    {
+      "id": "alexsmobs:capuchin_monkey",
+      "required": false
+    },
+    {
+      "id": "alexsmobs:flutter",
+      "required":  false
+    },
+    {
+      "id": "alexsmobs:maned_wolf",
+      "required":  false
+    },
+    {
+      "id": "alexsmobs:jerboa",
+      "required":  false
+    },
+    {
+      "id": "alexsmobs:sugar_glider",
+      "required":  false
+    }
   ]
 }

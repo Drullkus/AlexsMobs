@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:ores"
+    { "required": false, "id": "#forge:ores" },
+    { "required": false, "id": "#c:ores" }
   ]
 }

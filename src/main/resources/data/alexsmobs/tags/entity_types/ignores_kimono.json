@@ -3,7 +3,7 @@
   "replace": false,
   "values": [
     "minecraft:wither",
-    "alexsmobs:murmur",
-    "alexsmobs:murmur_head"
+    { "required": false, "id": "alexsmobs:murmur" },
+    { "required": false, "id": "alexsmobs:murmur_head" }
   ]
 }

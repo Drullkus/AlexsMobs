@@ -2,7 +2,7 @@
   "__comment": "all non-worm entities that void portals ignore.",
   "replace": false,
   "values": [
-    "alexsmobs:void_portal",
+    { "required": false, "id": "alexsmobs:void_portal" },
     "minecraft:end_crystal",
     "minecraft:ender_dragon"
   ]

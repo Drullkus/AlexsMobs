@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "#forge:crops/rice"
+    { "required": false, "id": "#forge:crops/rice" }
   ]
 }

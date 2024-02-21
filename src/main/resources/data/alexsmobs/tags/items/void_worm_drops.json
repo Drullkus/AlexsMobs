@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:void_worm_mandible",
-    "alexsmobs:void_worm_eye"
+    { "required": false, "id": "alexsmobs:void_worm_mandible" },
+    { "required": false, "id": "alexsmobs:void_worm_eye" }
   ]
 }

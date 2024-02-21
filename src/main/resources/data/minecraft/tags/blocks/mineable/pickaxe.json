@@ -1,13 +1,13 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:hummingbird_feeder",
-    "alexsmobs:gustmaker",
-    "alexsmobs:straddlite_block",
-    "alexsmobs:capsid",
-    "alexsmobs:void_worm_beak",
-    "alexsmobs:rainbow_glass",
-    "alexsmobs:transmutation_table",
-    "alexsmobs:crystalized_banana_slug_mucus"
+    { "required": false, "id": "alexsmobs:hummingbird_feeder" },
+    { "required": false, "id": "alexsmobs:gustmaker" },
+    { "required": false, "id": "alexsmobs:straddlite_block" },
+    { "required": false, "id": "alexsmobs:capsid" },
+    { "required": false, "id": "alexsmobs:void_worm_beak" },
+    { "required": false, "id": "alexsmobs:rainbow_glass" },
+    { "required": false, "id": "alexsmobs:transmutation_table" },
+    { "required": false, "id": "alexsmobs:crystalized_banana_slug_mucus" }
   ]
 }

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:nft",
-    "alexsmobs:dog_poker"
+    { "required": false, "id": "alexsmobs:nft" },
+    { "required": false, "id": "alexsmobs:dog_poker" }
   ]
 }

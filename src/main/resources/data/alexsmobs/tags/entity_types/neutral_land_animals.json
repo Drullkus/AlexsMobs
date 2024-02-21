@@ -3,19 +3,19 @@
   "replace": false,
   "values": [
     "minecraft:polar_bear",
-    "alexsmobs:bald_eagle",
-    "alexsmobs:elephant",
-    "alexsmobs:endergrade",
-    "alexsmobs:grizzly_bear",
-    "alexsmobs:gorilla",
-    "alexsmobs:kangaroo",
-    "alexsmobs:moose",
-    "alexsmobs:raccoon",
-    "alexsmobs:rattlesnake",
-    "alexsmobs:snow_leopard",
-    "alexsmobs:tiger",
-    "alexsmobs:anteater",
-    "alexsmobs:gelada_monkey",
-    "alexsmobs:caiman"
+    { "required": false, "id": "alexsmobs:bald_eagle" },
+    { "required": false, "id": "alexsmobs:elephant" },
+    { "required": false, "id": "alexsmobs:endergrade" },
+    { "required": false, "id": "alexsmobs:grizzly_bear" },
+    { "required": false, "id": "alexsmobs:gorilla" },
+    { "required": false, "id": "alexsmobs:kangaroo" },
+    { "required": false, "id": "alexsmobs:moose" },
+    { "required": false, "id": "alexsmobs:raccoon" },
+    { "required": false, "id": "alexsmobs:rattlesnake" },
+    { "required": false, "id": "alexsmobs:snow_leopard" },
+    { "required": false, "id": "alexsmobs:tiger" },
+    { "required": false, "id": "alexsmobs:anteater" },
+    { "required": false, "id": "alexsmobs:gelada_monkey" },
+    { "required": false, "id": "alexsmobs:caiman" }
   ]
 }

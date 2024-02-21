@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:bear"
+    { "required": false, "id": "alexsmobs:bear" }
   ]
 }

@@ -2,9 +2,9 @@
   "#comment": "For the plain pet store fish tank",
   "replace": false,
   "values": [
-    "alexsmobs:lobster",
-    "alexsmobs:devils_hole_pupfish",
-    "alexsmobs:flying_fish",
-    "alexsmobs:mudskipper"
+    { "required": false, "id": "alexsmobs:lobster" },
+    { "required": false, "id": "alexsmobs:devils_hole_pupfish" },
+    { "required": false, "id": "alexsmobs:flying_fish" },
+    { "required": false, "id": "alexsmobs:mudskipper" }
   ]
 }

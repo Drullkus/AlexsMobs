@@ -2,6 +2,6 @@
   "#comment": "For the snowy pet store cage",
   "replace": false,
   "values": [
-    "alexsmobs:froststalker"
+    { "required": false, "id": "alexsmobs:froststalker" }
   ]
 }

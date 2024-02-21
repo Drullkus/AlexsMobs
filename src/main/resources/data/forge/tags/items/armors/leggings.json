@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:centipede_leggings",
-    "alexsmobs:emu_leggings"
+    { "required": false, "id": "alexsmobs:centipede_leggings" },
+    { "required": false, "id": "alexsmobs:emu_leggings" }
   ]
 }

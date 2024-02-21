@@ -2,12 +2,12 @@
   "__comment": "all non-player targets of the crocodile mob.",
   "replace": false,
   "values": [
-    "#alexsmobs:passive_land_animals",
-    "#alexsmobs:villagers",
-    "alexsmobs:kangaroo",
-    "alexsmobs:gelada_monkey",
-    "alexsmobs:catfish",
-    "alexsmobs:caiman",
-    "alexsmobs:triops"
+    { "required": false, "id": "#alexsmobs:passive_land_animals" },
+    { "required": false, "id": "#alexsmobs:villagers" },
+    { "required": false, "id": "alexsmobs:kangaroo" },
+    { "required": false, "id": "alexsmobs:gelada_monkey" },
+    { "required": false, "id": "alexsmobs:catfish" },
+    { "required": false, "id": "alexsmobs:caiman" },
+    { "required": false, "id": "alexsmobs:triops" }
   ]
 }

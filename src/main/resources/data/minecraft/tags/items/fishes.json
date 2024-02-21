@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:blobfish",
-    "alexsmobs:flying_fish",
-    "alexsmobs:raw_catfish",
-    "alexsmobs:cooked_catfish"
+    { "required": false, "id": "alexsmobs:blobfish" },
+    { "required": false, "id": "alexsmobs:flying_fish" },
+    { "required": false, "id": "alexsmobs:raw_catfish" },
+    { "required": false, "id": "alexsmobs:cooked_catfish" }
   ]
 }

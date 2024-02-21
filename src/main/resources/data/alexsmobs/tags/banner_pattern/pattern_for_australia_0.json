@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:australia_0"
+    { "required": false, "id": "alexsmobs:australia_0" }
   ]
 }

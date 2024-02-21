@@ -1,9 +1,9 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:crocodile_egg",
-    "alexsmobs:platypus_egg",
-    "alexsmobs:emu_egg",
-    "alexsmobs:terrapin_egg"
+    { "required": false, "id": "alexsmobs:crocodile_egg" },
+    { "required": false, "id": "alexsmobs:platypus_egg" },
+    { "required": false, "id": "alexsmobs:emu_egg" },
+    { "required": false, "id": "alexsmobs:terrapin_egg" }
   ]
 }

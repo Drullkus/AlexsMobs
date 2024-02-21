@@ -14,9 +14,9 @@
     "minecraft:sheep",
     "minecraft:goat",
     "minecraft:trader_llama",
-    "alexsmobs:capuchin_monkey",
-    "alexsmobs:crow",
-    "alexsmobs:gelada_monkey",
-    "alexsmobs:caiman"
+    { "required": false, "id": "alexsmobs:capuchin_monkey" },
+    { "required": false, "id": "alexsmobs:crow" },
+    { "required": false, "id": "alexsmobs:gelada_monkey" },
+    { "required": false, "id": "alexsmobs:caiman" }
   ]
 }

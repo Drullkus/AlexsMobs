@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "#minecraft:fishes",
-    "alexsmobs:lobster_tail",
-    "alexsmobs:cooked_lobster_tail"
+    { "required": false, "id": "alexsmobs:lobster_tail" },
+    { "required": false, "id": "alexsmobs:cooked_lobster_tail" }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:crocodile_chestplate",
-    "alexsmobs:rocky_chestplate",
-    "alexsmobs:unsettling_kimono"
+    { "required": false, "id": "alexsmobs:crocodile_chestplate" },
+    { "required": false, "id": "alexsmobs:rocky_chestplate" },
+    { "required": false, "id": "alexsmobs:unsettling_kimono" }
   ]
 }

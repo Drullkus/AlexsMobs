@@ -2,12 +2,12 @@
   "__comment": "all non-player targets of the bald eagle mob.",
   "replace": false,
   "values": [
-    "minecraft:rabbit",
-    "minecraft:salmon",
-    "alexsmobs:raccoon",
-    "alexsmobs:jerboa",
-    "alexsmobs:catfish",
-    "alexsmobs:flying_fish",
-    "alexsmobs:triops"
+    { "required": false, "id": "minecraft:rabbit" },
+    { "required": false, "id": "minecraft:salmon" },
+    { "required": false, "id": "alexsmobs:raccoon" },
+    { "required": false, "id": "alexsmobs:jerboa" },
+    { "required": false, "id": "alexsmobs:catfish" },
+    { "required": false, "id": "alexsmobs:flying_fish" },
+    { "required": false, "id": "alexsmobs:triops" }
   ]
 }

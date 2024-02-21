@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:leafcutter_ant_chamber",
-    "alexsmobs:leafcutter_anthill",
-    "alexsmobs:banana_slug_slime_block"
+    { "required": false, "id": "alexsmobs:leafcutter_ant_chamber" },
+    { "required": false, "id": "alexsmobs:leafcutter_anthill" },
+    { "required": false, "id": "alexsmobs:banana_slug_slime_block" }
   ]
 }

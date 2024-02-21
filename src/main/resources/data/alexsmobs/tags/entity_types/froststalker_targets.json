@@ -5,6 +5,6 @@
     "#alexsmobs:villagers",
     "#alexsmobs:passive_land_animals",
     "minecraft:goat",
-    "alexsmobs:tusklin"
+    { "required": false, "id": "alexsmobs:tusklin" }
   ]
 }

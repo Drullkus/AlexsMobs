@@ -2,10 +2,10 @@
   "#comment": "For the savanna pet store cage",
   "replace": false,
   "values": [
-    "alexsmobs:seagull",
-    "alexsmobs:toucan",
-    "alexsmobs:crow",
-    "alexsmobs:potoo",
-    "alexsmobs:sugar_glider"
+    { "required": false, "id": "alexsmobs:seagull" },
+    { "required": false, "id": "alexsmobs:toucan" },
+    { "required": false, "id": "alexsmobs:crow" },
+    { "required": false, "id": "alexsmobs:potoo" },
+    { "required": false, "id": "alexsmobs:sugar_glider" }
   ]
 }

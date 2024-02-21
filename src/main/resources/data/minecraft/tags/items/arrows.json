@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:shark_tooth_arrow"
+    { "required": false, "id": "alexsmobs:shark_tooth_arrow" }
   ]
 }

@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:froststalker_helmet",
-    "alexsmobs:frontier_cap",
-    "alexsmobs:moose_headgear",
-    "alexsmobs:spiked_turtle_shell",
-    "alexsmobs:fedora",
-    "alexsmobs:sombrero"
+    { "required": false, "id": "alexsmobs:froststalker_helmet" },
+    { "required": false, "id": "alexsmobs:frontier_cap" },
+    { "required": false, "id": "alexsmobs:moose_headgear" },
+    { "required": false, "id": "alexsmobs:spiked_turtle_shell" },
+    { "required": false, "id": "alexsmobs:fedora" },
+    { "required": false, "id": "alexsmobs:sombrero" }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:new_mexico"
+    { "required": false, "id": "alexsmobs:new_mexico" }
   ]
 }

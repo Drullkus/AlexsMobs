@@ -8,7 +8,7 @@
     "minecraft:phantom",
     "minecraft:wither",
     "minecraft:warden",
-    "alexsmobs:soul_vulture",
-    "alexsmobs:skelewag"
+    { "required": false, "id": "alexsmobs:soul_vulture" },
+    { "required": false, "id": "alexsmobs:skelewag" }
   ]
 }

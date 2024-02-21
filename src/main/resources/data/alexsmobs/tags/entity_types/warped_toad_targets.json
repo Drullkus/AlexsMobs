@@ -5,11 +5,11 @@
     "minecraft:silverfish",
     "minecraft:spider",
     "minecraft:cave_spider",
-    "alexsmobs:crimson_mosquito",
-    "alexsmobs:fly",
-    "alexsmobs:cockroach",
-    "alexsmobs:warped_mosco",
-    "alexsmobs:leafcutter_ant",
-    "alexsmobs:tarantula_hawk"
+    { "required": false, "id": "alexsmobs:crimson_mosquito" },
+    { "required": false, "id": "alexsmobs:fly" },
+    { "required": false, "id": "alexsmobs:cockroach" },
+    { "required": false, "id": "alexsmobs:warped_mosco" },
+    { "required": false, "id": "alexsmobs:leafcutter_ant" },
+    { "required": false, "id": "alexsmobs:tarantula_hawk" }
   ]
 }

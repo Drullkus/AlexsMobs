@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:animal_dictionary"
+    { "required": false, "id": "alexsmobs:animal_dictionary" }
   ]
 }

@@ -4,9 +4,9 @@
   "values": [
     "#alexsmobs:passive_land_animals",
     "#alexsmobs:villagers",
-    "alexsmobs:kangaroo",
-    "alexsmobs:moose",
-    "alexsmobs:gelada_monkey",
-    "alexsmobs:caiman"
+    { "required": false, "id": "alexsmobs:kangaroo" },
+    { "required": false, "id": "alexsmobs:moose" },
+    { "required": false, "id": "alexsmobs:gelada_monkey" },
+    { "required": false, "id": "alexsmobs:caiman" }
   ]
 }

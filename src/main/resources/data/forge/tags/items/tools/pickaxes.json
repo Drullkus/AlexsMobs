@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:ghostly_pickaxe"
+    { "required": false, "id": "alexsmobs:ghostly_pickaxe" }
   ]
 }

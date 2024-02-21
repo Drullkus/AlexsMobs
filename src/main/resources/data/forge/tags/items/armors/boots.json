@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:roadrunner_boots",
-    "alexsmobs:flying_fish_boots"
+    { "required": false, "id": "alexsmobs:roadrunner_boots" },
+    { "required": false, "id": "alexsmobs:flying_fish_boots" }
   ]
 }

@@ -4,12 +4,12 @@
   "values": [
     "minecraft:drowned",
     "minecraft:dolphin",
-    "alexsmobs:orca",
-    "alexsmobs:hammerhead_shark",
-    "alexsmobs:mantis_shrimp",
-    "alexsmobs:cachalot_whale",
-    "alexsmobs:frilled_shark",
-    "alexsmobs:catfish",
-    "alexsmobs:caiman"
+    { "required": false, "id": "alexsmobs:orca" },
+    { "required": false, "id": "alexsmobs:hammerhead_shark" },
+    { "required": false, "id": "alexsmobs:mantis_shrimp" },
+    { "required": false, "id": "alexsmobs:cachalot_whale" },
+    { "required": false, "id": "alexsmobs:frilled_shark" },
+    { "required": false, "id": "alexsmobs:catfish" },
+    { "required": false, "id": "alexsmobs:caiman" }
   ]
 }

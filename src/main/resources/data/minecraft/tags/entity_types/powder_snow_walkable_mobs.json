@@ -1,18 +1,18 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:sunbird",
-    "alexsmobs:capuchin_monkey",
-    "alexsmobs:mimicube",
-    "alexsmobs:raccoon",
-    "alexsmobs:seal",
-    "alexsmobs:snow_leopard",
-    "alexsmobs:crow",
-    "alexsmobs:tasmanian_devil",
-    "alexsmobs:bald_eagle",
-    "alexsmobs:tiger",
-    "alexsmobs:maned_wolf",
-    "alexsmobs:jerboa",
-    "alexsmobs:bison"
+    { "required": false, "id": "alexsmobs:sunbird" },
+    { "required": false, "id": "alexsmobs:capuchin_monkey" },
+    { "required": false, "id": "alexsmobs:mimicube" },
+    { "required": false, "id": "alexsmobs:raccoon" },
+    { "required": false, "id": "alexsmobs:seal" },
+    { "required": false, "id": "alexsmobs:snow_leopard" },
+    { "required": false, "id": "alexsmobs:crow" },
+    { "required": false, "id": "alexsmobs:tasmanian_devil" },
+    { "required": false, "id": "alexsmobs:bald_eagle" },
+    { "required": false, "id": "alexsmobs:tiger" },
+    { "required": false, "id": "alexsmobs:maned_wolf" },
+    { "required": false, "id": "alexsmobs:jerboa" },
+    { "required": false, "id": "alexsmobs:bison" }
   ]
 }

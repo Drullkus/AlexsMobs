@@ -1,13 +1,13 @@
 {
   "replace": false,
   "values": [
-    "minecraft:redstone",
-    "minecraft:redstone_block",
-    "alexsmobs:mosquito_larva",
-    "alexsmobs:maggot",
-    "alexsmobs:mosquito_larva",
-    "#minecraft:fishes",
-    "alexsmobs:lobster_tail",
-    "alexsmobs:cooked_lobster_tail"
+    { "required": false, "id": "minecraft:redstone" },
+    { "required": false, "id": "minecraft:redstone_block" },
+    { "required": false, "id": "alexsmobs:mosquito_larva" },
+    { "required": false, "id": "alexsmobs:maggot" },
+    { "required": false, "id": "alexsmobs:mosquito_larva" },
+    { "required": false, "id": "#minecraft:fishes" },
+    { "required": false, "id": "alexsmobs:lobster_tail" },
+    { "required": false, "id": "alexsmobs:cooked_lobster_tail" }
   ]
 }

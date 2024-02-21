@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:brazil"
+    { "required": false, "id": "alexsmobs:brazil" }
   ]
 }

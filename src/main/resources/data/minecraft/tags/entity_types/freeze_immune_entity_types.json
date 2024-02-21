@@ -1,11 +1,11 @@
 {
   "replace": false,
   "values": [
-    "alexsmobs:moose",
-    "alexsmobs:snow_leopard",
-    "alexsmobs:froststalker",
-    "alexsmobs:tusklin",
-    "alexsmobs:raccoon",
-    "alexsmobs:bison"
+    { "required": false, "id": "alexsmobs:moose" },
+    { "required": false, "id": "alexsmobs:snow_leopard" },
+    { "required": false, "id": "alexsmobs:froststalker" },
+    { "required": false, "id": "alexsmobs:tusklin" },
+    { "required": false, "id": "alexsmobs:raccoon" },
+    { "required": false, "id": "alexsmobs:bison" }
   ]
 }

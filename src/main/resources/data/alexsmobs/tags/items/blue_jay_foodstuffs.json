@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     "minecraft:glow_berries",
-    "#alexsmobs:insect_items",
-    "#forge:seeds"
+    { "required": false, "id": "#alexsmobs:insect_items" },
+    { "required": false, "id": "#forge:seeds" }
   ]
 }
