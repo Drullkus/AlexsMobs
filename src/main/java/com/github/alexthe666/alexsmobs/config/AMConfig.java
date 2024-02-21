@@ -228,7 +228,7 @@ public class AMConfig {
     public static double leafcutterAntFungusGrowChance = 0.3F;
     public static int leafcutterAntRepopulateFeedings = 25;
     public static int leafcutterAntColonySize = 10;
-    public static double leafcutterAntBreakLeavesChance = 0.2F;
+    public static double leafcutterAntBreakLeavesChance = 0.05F; // customized from 0.2 to 0.05 (20% -> 5%)
     public static int beachedCachalotWhaleSpawnChance = 5;
     public static int beachedCachalotWhaleSpawnDelay = 24000;
     public static double leafcutterAnthillSpawnChance = 0.005F;

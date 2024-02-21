@@ -95,6 +95,10 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
 
     }
 
+    public void setHivePos(BlockPos hivePos) {
+        this.hivePos = hivePos;
+    }
+
     public void setTarget(LivingEntity entitylivingbaseIn) {
         if(entitylivingbaseIn instanceof Player && ((Player) entitylivingbaseIn).isCreative()){
             return;
@@ -635,10 +639,9 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
 
         @Override
         public boolean canUse() {
-            if(EntityLeafcutterAnt.this.stayOutOfHiveCountdown > 0){
-                return false;
-            }
-            if (EntityLeafcutterAnt.this.hasLeaf() || EntityLeafcutterAnt.this.isQueen()) {
+			boolean mustStayOut = EntityLeafcutterAnt.this.stayOutOfHiveCountdown > 0;
+
+            if (!mustStayOut || EntityLeafcutterAnt.this.hasLeaf() || EntityLeafcutterAnt.this.isQueen()) {
                 searchCooldown--;
                 BlockPos hive = EntityLeafcutterAnt.this.hivePos;
                 if (hive != null && EntityLeafcutterAnt.this.level().getBlockEntity(hive) instanceof TileEntityLeafcutterAnthill) {
@@ -648,7 +651,7 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
                 if (searchCooldown <= 0) {
                     searchCooldown = 400;
                     PoiManager pointofinterestmanager = ((ServerLevel) level()).getPoiManager();
-                    Stream<BlockPos> stream = pointofinterestmanager.findAll(poiTypeHolder -> poiTypeHolder.is(AMPointOfInterestRegistry.LEAFCUTTER_ANT_HILL.key()), Predicates.alwaysTrue(), EntityLeafcutterAnt.this.blockPosition(), 100, PoiManager.Occupancy.ANY);
+                    Stream<BlockPos> stream = pointofinterestmanager.findAll(poiTypeHolder -> poiTypeHolder.is(AMPointOfInterestRegistry.LEAFCUTTER_ANTHILL_KEY), Predicates.alwaysTrue(), EntityLeafcutterAnt.this.blockPosition(), 100, PoiManager.Occupancy.ANY);
                     List<BlockPos> listOfHives = stream.collect(Collectors.toList());
                     BlockPos ret = null;
                     for (BlockPos pos : listOfHives) {
@@ -656,8 +659,10 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
                             ret = pos;
                         }
                     }
-                    hivePos = ret;
-                    EntityLeafcutterAnt.this.hivePos = ret;
+                    if (ret != null) {
+                        hivePos = ret;
+                        EntityLeafcutterAnt.this.hivePos = ret;
+                    }
                     return hivePos != null;
                 }
             }
@@ -675,7 +680,6 @@ public class EntityLeafcutterAnt extends Animal implements NeutralMob, IAnimated
         }
 
         public void start() {
-            this.hivePos = null;
             this.searchCooldown = 20;
             this.approachTime = 0;
             moveToCooldown = 10 + random.nextInt(10);

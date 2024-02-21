@@ -32,7 +32,8 @@ public class LeafcutterAntAIForageLeaves extends MoveToBlockGoal {
     }
 
     public boolean canUse() {
-        return !ant.isBaby() && !ant.hasLeaf() && !ant.isBaby() && !ant.isQueen() && super.canUse();
+        return !ant.isBaby() && !ant.hasLeaf() && !ant.isQueen()
+                && super.canUse();
     }
 
     public boolean canContinueToUse() {
@@ -155,26 +156,31 @@ public class LeafcutterAntAIForageLeaves extends MoveToBlockGoal {
 
     @Override
     protected boolean isValidTarget(LevelReader worldIn, BlockPos pos) {
-        return worldIn.getBlockState(pos).is(AMTagRegistry.LEAFCUTTER_ANT_BREAKABLES);
+        BlockState blockState = worldIn.getBlockState(pos);
+
+		if (blockState.is(AMTagRegistry.LEAFCUTTER_ANT_BREAKABLES))
+            return true;
+
+        return false;
     }
 
 
     @Override
     protected boolean findNearestBlock() {
-        int i = this.searchRange;
+        int range = this.searchRange;
         int j = this.verticalSearchRange;
         BlockPos blockpos = this.mob.blockPosition();
         if(ant.hasHive() && ant.getHivePos() != null){
-            blockpos = ant.getHivePos();
-            i *= 2;
+            blockpos = ant.getHivePos().above();
+            range *= 2;
         }
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-        for (int k = this.verticalSearchStart; k <= j; k = k > 0 ? -k : 1 - k) {
-            for (int l = 0; l < i; ++l) {
-                for (int i1 = 0; i1 <= l; i1 = i1 > 0 ? -i1 : 1 - i1) {
-                    for (int j1 = i1 < l && i1 > -l ? l : 0; j1 <= l; j1 = j1 > 0 ? -j1 : 1 - j1) {
-                        blockpos$mutableblockpos.setWithOffset(blockpos, i1, k - 1, j1);
+        for (int yOffset = this.verticalSearchStart; yOffset <= j; yOffset = yOffset > 0 ? -yOffset : 1 - yOffset) {
+            for (int radius = 0; radius < range; ++radius) {
+                for (int xDelta = 0; xDelta <= radius; xDelta = xDelta > 0 ? -xDelta : 1 - xDelta) {
+                    for (int zDelta = xDelta < radius && xDelta > -radius ? radius : 0; zDelta <= radius; zDelta = zDelta > 0 ? -zDelta : 1 - zDelta) {
+                        blockpos$mutableblockpos.setWithOffset(blockpos, xDelta, yOffset - 1, zDelta);
                         if (this.mob.isWithinRestriction(blockpos$mutableblockpos) && this.isValidTarget(this.mob.level(), blockpos$mutableblockpos)) {
                             this.blockPos = blockpos$mutableblockpos;
                             return true;

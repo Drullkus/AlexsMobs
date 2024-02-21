@@ -149,9 +149,9 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
             });
             if (entity != null) {
 
-                if (entity instanceof EntityLeafcutterAnt) {
-                    EntityLeafcutterAnt entityLeafcutterAnt = (EntityLeafcutterAnt) entity;
+                if (entity instanceof EntityLeafcutterAnt entityLeafcutterAnt) {
                     entityLeafcutterAnt.setLeaf(false);
+                    entityLeafcutterAnt.setHivePos(this.getBlockPos());
                     if (p_235651_4_ == BeehiveBlockEntity.BeeReleaseStatus.HONEY_DELIVERED) {
 
                     }
@@ -166,6 +166,8 @@ public class TileEntityLeafcutterAnthill extends BlockEntity {
                     entity.moveTo(d0, d1, d2, entity.getYRot(), entity.getXRot());
                     if (((EntityLeafcutterAnt) entity).isQueen()) {
                         entityLeafcutterAnt.setStayOutOfHiveCountdown(400);
+                    } else {
+                        entityLeafcutterAnt.setStayOutOfHiveCountdown(100);
                     }
                 }
 
