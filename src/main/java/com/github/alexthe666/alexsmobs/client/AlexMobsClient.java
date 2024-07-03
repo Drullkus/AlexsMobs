@@ -32,11 +32,11 @@ public class AlexMobsClient implements ClientModInitializer {
 					entity.setAnimation(entity.getAnimations()[index]);
 				}
 				entity.setAnimationTick(0);
-			} else if (entityFound != null) {
+			} /*else if (entityFound != null) {
 				AlexsMobs.LOGGER.warn("Received Animation packet for non-animation entity " + entityFound.getType() + ", index: " + index + ", entityId: " + entityId);
 			} else {
 				AlexsMobs.LOGGER.warn("Received Animation packet for an unfound entity, index: " + index + ", entityId: " + entityId);
-			}
+			}*/
 		}
 	}
 }
