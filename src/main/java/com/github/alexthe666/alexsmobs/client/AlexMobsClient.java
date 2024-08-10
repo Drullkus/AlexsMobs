@@ -1,13 +1,16 @@
 package com.github.alexthe666.alexsmobs.client;
 
 import com.github.alexthe666.alexsmobs.ClientProxy;
+import com.github.alexthe666.alexsmobs.block.AMBlockRegistry;
 import com.github.alexthe666.alexsmobs.entity.EntityAnaconda;
 import com.github.alexthe666.alexsmobs.entity.IHurtableMultipart;
 import com.github.alexthe666.citadel.Citadel;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -28,6 +31,8 @@ public class AlexMobsClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(Citadel.PACKET_ANIMATION, AlexMobsClient::handleAnimation);
 		ClientPlayNetworking.registerGlobalReceiver(Citadel.PACKET_MULTIPART_HURT, AlexMobsClient::handleMultipartHurt);
 		ClientProxy.init();
+
+		BlockRenderLayerMap.INSTANCE.putBlock(AMBlockRegistry.BANANA_PEEL.value(), RenderType.cutout());
 	}
 
 	private static void handleAnimation(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
