@@ -21,11 +21,19 @@ public class AMLootTables extends FabricBlockLootTableProvider {
 
 	@Override
 	public void generate() {
-		this.add(Blocks.JUNGLE_LEAVES, this::makeJungleLeavesDrops);
+		this.add(Blocks.OAK_LEAVES, block -> this.makeJungleLeavesDrops(block, Blocks.OAK_SAPLING));
+		this.add(Blocks.BIRCH_LEAVES, block -> this.makeJungleLeavesDrops(block, Blocks.BIRCH_SAPLING));
+		this.add(Blocks.SPRUCE_LEAVES, block -> this.makeJungleLeavesDrops(block, Blocks.SPRUCE_SAPLING));
+		this.add(Blocks.JUNGLE_LEAVES, block -> this.makeJungleLeavesDrops(block, Blocks.JUNGLE_SAPLING));
+		this.add(Blocks.DARK_OAK_LEAVES, block -> this.makeJungleLeavesDrops(block, Blocks.DARK_OAK_SAPLING));
+		this.add(Blocks.ACACIA_LEAVES, block -> this.makeJungleLeavesDrops(block, Blocks.ACACIA_SAPLING));
+		this.add(Blocks.AZALEA_LEAVES, block -> this.makeJungleLeavesDrops(block, Blocks.AZALEA));
+		this.add(Blocks.CHERRY_LEAVES, block -> this.makeJungleLeavesDrops(block, Blocks.CHERRY_SAPLING));
+		this.add(Blocks.MANGROVE_LEAVES, block -> this.makeJungleLeavesDrops(block, Blocks.MANGROVE_PROPAGULE));
 	}
 
-	private LootTable.Builder makeJungleLeavesDrops(Block block) {
-		return this.createLeavesDrops(block, Blocks.JUNGLE_SAPLING, JUNGLE_LEAVES_SAPLING_CHANGES)
+	private LootTable.Builder makeJungleLeavesDrops(Block block, Block sapling) {
+		return this.createLeavesDrops(block, sapling, JUNGLE_LEAVES_SAPLING_CHANGES)
 				.withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(LootItem.lootTableItem(AMItemRegistry.BANANA.value())).apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0f, 1.0f))));
 	}
 }

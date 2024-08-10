@@ -1,2 +1,10 @@
-// 1.20.4	2024-02-20T10:25:05.982798	Alexs Mobs/Block Loot Tables
+// 1.20.4	2024-08-09T18:40:57.919896	Alexs Mobs/Block Loot Tables
+d685d753abcdc0c9a2039ff03aee05d1c499009c data/minecraft/loot_tables/blocks/acacia_leaves.json
+47eb9edf8f08b5bfa5567f6b8f76ef748bd49ee2 data/minecraft/loot_tables/blocks/cherry_leaves.json
+33c8b803344880ed228ae620522d51ade4c6550e data/minecraft/loot_tables/blocks/azalea_leaves.json
 a7b6bcb30fee15c5de173acb7e10b0708c5e8acf data/minecraft/loot_tables/blocks/jungle_leaves.json
+117bfe6d257c96f775b89b29a7cd5982bab8c595 data/minecraft/loot_tables/blocks/spruce_leaves.json
+d8fef203ac7d8a3cfe1132b0e21a1b8c63288045 data/minecraft/loot_tables/blocks/oak_leaves.json
+678538783974bb6fcafe5f81582d9904da46dcdc data/minecraft/loot_tables/blocks/birch_leaves.json
+97bee5e3407cc2f475efaaad8ade679701f06066 data/minecraft/loot_tables/blocks/mangrove_leaves.json
+ea2e86c25776621fa34177f1d23d3bd98b7599b2 data/minecraft/loot_tables/blocks/dark_oak_leaves.json
